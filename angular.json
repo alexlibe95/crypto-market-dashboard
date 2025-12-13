@@ -64,7 +64,12 @@
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test"
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "buildTarget": "crypto-market-dashboard:build",
+            "tsConfig": "tsconfig.spec.json",
+            "runner": "vitest"
+          }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
