@@ -6,7 +6,7 @@ import { CryptoTableComponent } from './features/crypto/components/crypto-table/
   selector: 'app-root',
   imports: [CryptoTableComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css',
+  styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {

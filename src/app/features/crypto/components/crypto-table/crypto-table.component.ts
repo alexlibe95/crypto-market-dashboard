@@ -8,7 +8,7 @@ import * as CryptoActions from '../../store/crypto.actions';
   selector: 'app-crypto-table',
   imports: [DecimalPipe, UpperCasePipe],
   templateUrl: './crypto-table.component.html',
-  styleUrl: './crypto-table.component.css',
+  styleUrl: './crypto-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CryptoTableComponent {
