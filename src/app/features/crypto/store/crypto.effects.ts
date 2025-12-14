@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
 
 import * as CryptoActions from './crypto.actions';
 import { CoinGeckoService } from '../../../core/services/coingecko.service';
@@ -13,7 +13,7 @@ export class CryptoEffects {
   loadCryptos$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CryptoActions.loadCryptos),
-      mergeMap(() =>
+      switchMap(() =>
         this.coinGeckoService.getMarketData().pipe(
           map(data =>
             CryptoActions.loadCryptosSuccess({ data })
