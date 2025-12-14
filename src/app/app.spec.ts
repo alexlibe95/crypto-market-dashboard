@@ -1,12 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { provideStore } from '@ngrx/store';
+
 import { App } from './app';
+import { CryptoTableComponent } from './features/crypto/components/crypto-table/crypto-table.component';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App],
-      providers: [provideZonelessChangeDetection(), provideBrowserGlobalErrorListeners()],
+      imports: [App, CryptoTableComponent],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideBrowserGlobalErrorListeners(),
+        provideStore(),
+      ],
     }).compileComponents();
   });
 
@@ -14,12 +21,5 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(App);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, crypto-market-dashboard');
   });
 });
