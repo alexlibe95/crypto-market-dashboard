@@ -1,0 +1,36 @@
+<div class="w-full flex gap-4 px-4 py-2 border border-white/30 shadow-lg rounded-lg text-white">
+  <input
+    type="text"
+    placeholder="Filter by name"
+    class="input"
+    (input)="name.set($any($event.target).value)"
+  />
+
+  <input
+    type="text"
+    placeholder="Filter by symbol"
+    class="input"
+    (input)="symbol.set($any($event.target).value)"
+  />
+
+  <input
+    type="number"
+    placeholder="Min market cap"
+    class="input"
+    (input)="minMarketCap.set($any($event.target).valueAsNumber || null)"
+  />
+  <div class="flex gap-2">
+    <button
+      class="bg-blue-700 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-600"
+      (click)="applyFilters()"
+    >
+      Apply
+    </button>
+    <button
+      class="bg-gray-700 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-gray-600"
+      (click)="reset()"
+    >
+      Reset
+    </button>
+  </div>
+</div>
