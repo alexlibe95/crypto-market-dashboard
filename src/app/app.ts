@@ -1,32 +1,20 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
+
+import { CryptoTableComponent } from './features/crypto/components/crypto-table/crypto-table.component';
 import * as CryptoActions from './features/crypto/store/crypto.actions';
-import { selectCryptos, selectLoading } from './features/crypto/store/crypto.selectors';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [CryptoTableComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css',
+  styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
-  private store = inject(Store);
-
   protected readonly title = signal('crypto-market-dashboard');
-
-  readonly loading$ = this.store.selectSignal(selectLoading);
-  readonly cryptos$ = this.store.selectSignal(selectCryptos);
-
+  private store = inject(Store);
   constructor() {
-        // dispatch once - temporary smoke test
-        this.store.dispatch(CryptoActions.loadCryptos());
-
-        // react to state changes - temporary smoke test
-        effect(() => {
-          console.log('Loading (signal):', this.loading$());
-          console.log('Cryptos (signal):', this.cryptos$());
-        });
+    this.store.dispatch(CryptoActions.loadCryptos());
   }
 }

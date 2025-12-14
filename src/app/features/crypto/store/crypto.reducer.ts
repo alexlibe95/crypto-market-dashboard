@@ -8,21 +8,21 @@ export const cryptoFeatureKey = 'crypto';
 export const cryptoReducer = createReducer(
   initialCryptoState,
 
-  on(CryptoActions.loadCryptos, state => ({
+  on(CryptoActions.loadCryptos, (state) => ({
     ...state,
     loading: true,
-    error: null
+    error: null,
   })),
 
   on(CryptoActions.loadCryptosSuccess, (state, { data }) => ({
     ...state,
     loading: false,
-    data
+    data,
   })),
 
   on(CryptoActions.loadCryptosFailure, (state, { error }) => ({
     ...state,
     loading: false,
-    error
+    error,
   }))
 );

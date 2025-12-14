@@ -9,5 +9,5 @@ export interface CryptoState {
 export const initialCryptoState: CryptoState = {
   data: [],
   loading: false,
-  error: null
+  error: null,
 };

@@ -19,10 +19,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideEffects(CryptoEffects),
-    provideStore(
-      {
-        [cryptoFeatureKey]: cryptoReducer
-      }
-    ),
+    provideStore({
+      [cryptoFeatureKey]: cryptoReducer,
+    }),
   ],
 };

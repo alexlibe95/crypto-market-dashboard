@@ -2,13 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideStore } from '@ngrx/store';
 
-import { App } from './app';
-import { CryptoTableComponent } from './features/crypto/components/crypto-table/crypto-table.component';
+import { CryptoTableComponent } from './crypto-table.component';
 
-describe('App', () => {
+describe('CryptoTableComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App, CryptoTableComponent],
+      imports: [CryptoTableComponent],
       providers: [
         provideZonelessChangeDetection(),
         provideBrowserGlobalErrorListeners(),
@@ -17,9 +16,9 @@ describe('App', () => {
     }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it('should create the component', () => {
+    const fixture = TestBed.createComponent(CryptoTableComponent);
+    const component = fixture.componentInstance;
+    expect(component).toBeTruthy();
   });
 });
