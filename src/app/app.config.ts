@@ -5,17 +5,24 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
+import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 
 import { routes } from './app.routes';
-import { reducers, metaReducers } from './reducers';
+import { CryptoEffects } from './features/crypto/store/crypto.effects';
+import { cryptoReducer, cryptoFeatureKey } from './features/crypto/store/crypto.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideStore(reducers, { metaReducers }),
     provideHttpClient(),
+    provideEffects(CryptoEffects),
+    provideStore(
+      {
+        [cryptoFeatureKey]: cryptoReducer
+      }
+    ),
   ],
 };
