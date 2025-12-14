@@ -1,0 +1,41 @@
+<section>
+  @if (loading()) {
+    <p>Loading cryptocurrencies...</p>
+  }
+
+  @if (!loading()) {
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Symbol</th>
+          <th>Price (USD)</th>
+          <th>Market Cap</th>
+          <th>Total Volume</th>
+          <th>High 24h</th>
+          <th>Low 24h</th>
+          <th>Price Change % (24h)</th>
+          <th>Circulating Supply</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (crypto of cryptos(); track crypto.id) {
+          <tr>
+            <td>{{ crypto.id }}</td>
+            <td>{{ crypto.name }}</td>
+            <td>{{ crypto.symbol | uppercase }}</td>
+            <td>{{ crypto.current_price | number }}</td>
+            <td>{{ crypto.market_cap | number }}</td>
+            <td>{{ crypto.total_volume | number }}</td>
+            <td>{{ crypto.high_24h | number }}</td>
+            <td>{{ crypto.low_24h | number }}</td>
+            <td>{{ crypto.price_change_percentage_24h | number : '1.2-2' }}</td>
+            <td>{{ crypto.circulating_supply | number }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>
