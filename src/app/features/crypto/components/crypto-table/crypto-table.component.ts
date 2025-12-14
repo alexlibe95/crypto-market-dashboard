@@ -3,7 +3,6 @@ import { DecimalPipe, UpperCasePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 
 import { selectCryptos, selectLoading } from '../../store/crypto.selectors';
-import * as CryptoActions from '../../store/crypto.actions';
 
 @Component({
   selector: 'app-crypto-table',
@@ -17,8 +16,4 @@ export class CryptoTableComponent {
 
   readonly cryptos = this.store.selectSignal(selectCryptos);
   readonly loading = this.store.selectSignal(selectLoading);
-
-  constructor() {
-    this.store.dispatch(CryptoActions.loadCryptos());
-  }
 }
