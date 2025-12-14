@@ -1,8 +1,5 @@
-:host {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  height: 100%;
-  width: 100%;
+.truncate-cell {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-

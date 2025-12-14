@@ -15,13 +15,11 @@ export class CryptoEffects {
       ofType(CryptoActions.loadCryptos),
       switchMap(() =>
         this.coinGeckoService.getMarketData().pipe(
-          map(data =>
-            CryptoActions.loadCryptosSuccess({ data })
-          ),
-          catchError(error =>
+          map((data) => CryptoActions.loadCryptosSuccess({ data })),
+          catchError((error) =>
             of(
               CryptoActions.loadCryptosFailure({
-                error: error.message ?? 'Failed to load data'
+                error: error.message ?? 'Failed to load data',
               })
             )
           )

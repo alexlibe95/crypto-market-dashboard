@@ -1,16 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
-@use 'tailwindcss';
+@use "tailwindcss";
 
 html,
 body {
   height: 100%;
   margin: 0;
   padding: 0;
-}
-
-body {
-  overflow: hidden;
 }
 
 /* Custom scrollbar styling */
@@ -38,4 +34,3 @@ body {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
 }
-

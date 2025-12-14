@@ -1,18 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  provideZonelessChangeDetection,
-  provideBrowserGlobalErrorListeners,
-} from '@angular/core';
+import { provideZonelessChangeDetection, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [
-        provideZonelessChangeDetection(),
-        provideBrowserGlobalErrorListeners(),
-      ],
+      providers: [provideZonelessChangeDetection(), provideBrowserGlobalErrorListeners()],
     }).compileComponents();
   });
 

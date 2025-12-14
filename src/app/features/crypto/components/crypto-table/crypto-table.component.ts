@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { DecimalPipe, UpperCasePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
+
 import { selectCryptos, selectLoading } from '../../store/crypto.selectors';
 import * as CryptoActions from '../../store/crypto.actions';
 
