@@ -1,12 +1,14 @@
 <div
   class="bg-white/10 border border-white/30 w-full h-full backdrop-blur-md shadow-lg p-4 rounded-lg text-white flex flex-col min-h-0"
 >
-  @if (loading()) {
-    <p>Loading cryptocurrencies...</p>
-  }
-
-  @if (!loading()) {
-    <div class="flex-1 min-h-0 overflow-auto">
+  <div class="flex-1 min-h-0 overflow-auto">
+    @if (loading()) {
+      <p class="px-4 py-2 text-sm text-gray-400">Loading cryptocurrencies...</p>
+    } @else if (error()) {
+      <p class="px-4 py-2 text-sm text-red-400">
+        {{ error() }}
+      </p>
+    } @else {
       <table class="min-w-full w-full table-auto border-collapse">
         <thead class="sticky top-0 bg-zinc-700/90">
           <tr>
@@ -50,8 +52,12 @@
               <td class="px-4 py-2 text-right whitespace-nowrap">
                 {{ crypto.total_volume | number }}
               </td>
-              <td class="px-4 py-2 text-right whitespace-nowrap">{{ crypto.high_24h | number }}</td>
-              <td class="px-4 py-2 text-right whitespace-nowrap">{{ crypto.low_24h | number }}</td>
+              <td class="px-4 py-2 text-right whitespace-nowrap">
+                {{ crypto.high_24h | number }}
+              </td>
+              <td class="px-4 py-2 text-right whitespace-nowrap">
+                {{ crypto.low_24h | number }}
+              </td>
               <td class="px-4 py-2 text-right whitespace-nowrap">
                 {{ crypto.price_change_percentage_24h | number: '1.2-2' }}
               </td>
@@ -62,6 +68,6 @@
           }
         </tbody>
       </table>
-    </div>
-  }
+    }
+  </div>
 </div>

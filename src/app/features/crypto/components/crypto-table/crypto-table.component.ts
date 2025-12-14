@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { DecimalPipe, UpperCasePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 
-import { selectCryptos, selectLoading } from '../../store/crypto.selectors';
+import { selectCryptos, selectError, selectLoading } from '../../store/crypto.selectors';
 
 @Component({
   selector: 'app-crypto-table',
@@ -16,4 +16,5 @@ export class CryptoTableComponent {
 
   readonly cryptos = this.store.selectSignal(selectCryptos);
   readonly loading = this.store.selectSignal(selectLoading);
+  readonly error = this.store.selectSignal(selectError);
 }
