@@ -1,4 +1,5 @@
-<div class="flex items-center justify-between py-3 border-t border-white/10 bg-zinc-900/50">
+<div class="flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 md:gap-0 py-3 border-t border-white/10 bg-zinc-900/50">
+  <!-- Pagination Buttons -->
   <div class="flex items-center gap-2">
     <!-- First Page Button -->
     <button
@@ -63,8 +64,9 @@
     </button>
   </div>
 
-  <div class="flex items-center gap-2">
-    <span class="text-sm text-white/70">Items per page:</span>
+  <!-- Items per page and Display Range -->
+  <div class="flex items-center gap-2 flex-wrap justify-center">
+    <span class="text-sm text-white/70 whitespace-nowrap">Items per page:</span>
     <select
       class="px-2 py-1.5 bg-white/5 border border-white/20 rounded-md text-white text-sm focus:outline-none focus:border-white/40 focus:bg-white/8 transition-colors cursor-pointer"
       [value]="pagination().pageSize"
@@ -80,7 +82,7 @@
         </option>
       }
     </select>
-    <span class="text-sm text-white/70 w-25 flex justify-end">
+    <span class="text-sm text-white/70 whitespace-nowrap">
       @if (total() === 0) {
         0 of 0
       } @else {

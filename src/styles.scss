@@ -7,6 +7,31 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
+}
+
+/* Mobile viewport height fix */
+html {
+  /* Use dynamic viewport height for better mobile support */
+  height: 100dvh;
+  height: 100vh; /* Fallback for browsers that don't support dvh */
+}
+
+body {
+  height: 100%;
+  min-height: 100dvh;
+  min-height: 100vh; /* Fallback */
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
 }
 
 /* Custom scrollbar styling */
