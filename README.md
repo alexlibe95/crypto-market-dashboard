@@ -1,59 +1,75 @@
-# CryptoMarketDashboard
+# Crypto Market Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.2.
+A modern, responsive dashboard for exploring cryptocurrency market data. View real-time market information in a clean table format or visualize market capitalization trends through interactive charts.
 
-## Development server
+🌐 **Live Demo**: [https://crypto-market-dashboard.netlify.app/](https://crypto-market-dashboard.netlify.app/)
 
-To start a local development server, run:
+## Features
 
+- **Data Table**: Browse cryptocurrencies with sorting, filtering, search, and pagination
+- **Interactive Charts**: Visualize top cryptocurrencies by market cap using bar or pie charts
+- **Advanced Filtering**: Filter by name, symbol, market cap range, and price change percentage
+- **Real-time Search**: Quickly find cryptocurrencies by name, symbol, or ID
+- **Responsive Design**: Optimized for desktop and mobile devices
+
+## Tech Stack
+
+- **Angular 20** with standalone components
+- **NgRx** for state management
+- **ECharts** for data visualization
+- **Tailwind CSS** for styling
+- **TypeScript** for type safety
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm (v11.6.2 or higher)
+
+### Installation
+
+1. Clone the repository:
 ```bash
-ng serve
+git clone <repository-url>
+cd crypto-market-dashboard
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+2. Install dependencies:
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
+3. Start the development server:
 ```bash
-ng generate --help
+npm start
 ```
 
-## Building
+4. Open your browser and navigate to `http://localhost:4200`
 
-To build the project run:
+## Available Scripts
 
-```bash
-ng build
+- `npm start` - Start the development server
+- `npm run build` - Build for production
+- `npm test` - Run unit tests
+- `npm run lint` - Run ESLint
+- `npm run format` - Format code with Prettier
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── features/
+│   │   └── crypto/
+│   │       ├── components/     # UI components
+│   │       └── store/         # NgRx state management
+│   └── core/
+│       ├── models/            # TypeScript interfaces
+│       ├── services/          # API services
+│       └── constants/         # App constants
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Data Source
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Market data is fetched from the CoinGecko API, providing real-time cryptocurrency information including prices, market capitalization, and 24-hour price changes.
