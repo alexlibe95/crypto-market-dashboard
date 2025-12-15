@@ -23,6 +23,7 @@
     "@ngrx/effects": "^20.1.0",
     "@ngrx/store": "^20.1.0",
     "echarts": "^6.0.0",
+    "lucide-angular": "^0.561.0",
     "ngx-echarts": "^20.0.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

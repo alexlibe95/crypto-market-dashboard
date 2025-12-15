@@ -1,0 +1,65 @@
+.slider {
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  touch-action: none;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: white;
+    cursor: grab;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    transition: all 0.15s;
+    position: relative;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.95);
+      transform: scale(1.25);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    &:active {
+      cursor: grabbing;
+      transform: scale(1.35);
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  &::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: white;
+    cursor: grab;
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    transition: all 0.15s;
+    position: relative;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.95);
+      transform: scale(1.25);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    &:active {
+      cursor: grabbing;
+      transform: scale(1.35);
+      border-color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  &::-webkit-slider-runnable-track {
+    height: 6px;
+    background: transparent;
+  }
+
+  &::-moz-range-track {
+    height: 6px;
+    background: transparent;
+  }
+}

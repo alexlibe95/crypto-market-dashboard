@@ -24,5 +24,18 @@ export const cryptoReducer = createReducer(
     ...state,
     loading: false,
     error,
+  })),
+
+  on(CryptoActions.updateFilters, (state, { filters }) => ({
+    ...state,
+    filters: {
+      ...state.filters,
+      ...filters,
+    },
+  })),
+
+  on(CryptoActions.resetFilters, (state) => ({
+    ...state,
+    filters: initialCryptoState.filters,
   }))
 );

@@ -1,0 +1,177 @@
+<div class="relative flex justify-end">
+  <button
+    class="filter-button bg-gray-700 text-white px-2 py-2 rounded-md cursor-pointer hover:bg-gray-600 transition-colors"
+    (click)="togglePopover()"
+    type="button"
+  >
+    <i-lucide [img]="listFilterIcon" class="text-white"></i-lucide>
+  </button>
+
+  @if (isOpen()) {
+    <div
+      class="popover-dropdown absolute top-full right-0 mt-2 z-50 w-80 bg-zinc-800 border border-white/20 rounded-lg shadow-xl"
+    >
+      <div class="p-4 border-b border-white/10 flex items-center justify-between">
+        <h3 class="text-lg font-semibold text-white">Filters</h3>
+        <button
+          class="p-1 text-white/70 hover:text-white hover:bg-white/10 rounded transition-colors cursor-pointer"
+          (click)="closePopover()"
+          type="button"
+          aria-label="Close filters"
+        >
+          <i-lucide [img]="xIcon" class="w-4 h-4"></i-lucide>
+        </button>
+      </div>
+
+      <div class="p-4 space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-white/90 mb-2" for="filter-name">
+            Name
+          </label>
+          <input
+            id="filter-name"
+            type="text"
+            placeholder="Filter by name"
+            class="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-md text-white text-sm placeholder-white/40 focus:outline-none focus:border-white/40 focus:bg-white/8 transition-colors"
+            [value]="name()"
+            (input)="updateName($any($event.target).value)"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-white/90 mb-2" for="filter-symbol">
+            Symbol
+          </label>
+          <input
+            id="filter-symbol"
+            type="text"
+            placeholder="Filter by symbol"
+            class="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-md text-white text-sm placeholder-white/40 focus:outline-none focus:border-white/40 focus:bg-white/8 transition-colors"
+            [value]="symbol()"
+            (input)="updateSymbol($any($event.target).value)"
+          />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-white/90 mb-2" for="filter-price-change">
+            Price Change (24h)
+          </label>
+          <div class="flex gap-2">
+            <div class="flex-1">
+              <!-- <label class="block text-xs text-white/70 mb-1" for="min-price-change-input"
+                >Min</label
+              > -->
+              <input
+                id="min-price-change-input"
+                type="number"
+                step="0.01"
+                [value]="minPriceChange() ?? ''"
+                (input)="onMinPriceChangeInputChange($event)"
+                placeholder="Min %"
+                class="w-full px-2 py-1.5 bg-white/5 border border-white/20 rounded-md text-white text-sm placeholder-white/40 focus:outline-none focus:border-white/40 focus:bg-white/8 transition-colors"
+              />
+            </div>
+            <div class="flex items-center justify-center">-</div>
+            <div class="flex-1">
+              <!-- <label class="block text-xs text-white/70 mb-1" for="max-price-change-input"
+                >Max</label
+              > -->
+              <input
+                id="max-price-change-input"
+                type="number"
+                step="0.01"
+                [value]="maxPriceChange() ?? ''"
+                (input)="onMaxPriceChangeInputChange($event)"
+                placeholder="Max %"
+                class="w-full px-2 py-1.5 bg-white/5 border border-white/20 rounded-md text-white text-sm placeholder-white/40 focus:outline-none focus:border-white/40 focus:bg-white/8 transition-colors"
+              />
+            </div>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-white/90 mb-2" for="filter-market-cap">
+            Market Cap
+          </label>
+          <div class="flex gap-2 mb-3">
+            <div class="flex-1">
+              <!-- <label class="block text-xs text-white/70 mb-1" for="min-market-cap-input">Min</label> -->
+              <input
+                id="min-market-cap-input"
+                type="number"
+                min="0"
+                [max]="maxMarketCap()"
+                [value]="minMarketCap() ?? ''"
+                (input)="onMinInputChange($event)"
+                placeholder="0"
+                class="w-full px-2 py-1.5 bg-white/5 border border-white/20 rounded-md text-white text-sm placeholder-white/40 focus:outline-none focus:border-white/40 focus:bg-white/8 transition-colors"
+              />
+            </div>
+            <div class="flex items-center justify-center">-</div>
+            <div class="flex-1">
+              <!-- <label class="block text-xs text-white/70 mb-1" for="max-market-cap-input">Max</label> -->
+              <input
+                id="max-market-cap-input"
+                type="number"
+                min="0"
+                [max]="maxMarketCap()"
+                [value]="maxMarketCapFilter() ?? ''"
+                (input)="onMaxInputChange($event)"
+                placeholder="Max"
+                class="w-full px-2 py-1.5 bg-white/5 border border-white/20 rounded-md text-white text-sm placeholder-white/40 focus:outline-none focus:border-white/40 focus:bg-white/8 transition-colors"
+              />
+            </div>
+          </div>
+          <div class="relative h-6 select-none">
+            <div class="absolute top-[5px] left-0 right-0 h-1.5 bg-white/10 rounded-sm"></div>
+            <div
+              class="absolute top-[5px] h-1.5 bg-blue-500/50 rounded-sm pointer-events-none transition-all duration-100"
+              [style.left.%]="rangePercentage().min"
+              [style.width.%]="rangePercentage().max - rangePercentage().min"
+            ></div>
+            <input
+              id="filter-market-cap-min"
+              type="range"
+              min="0"
+              [max]="maxMarketCap()"
+              [value]="minSliderValue()"
+              (input)="onMinSliderChange($event)"
+              class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider slider-min top-1 z-10"
+            />
+            <input
+              id="filter-market-cap-max"
+              type="range"
+              min="0"
+              [max]="maxMarketCap()"
+              [value]="maxSliderValue()"
+              (input)="onMaxSliderChange($event)"
+              class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider slider-max top-1 z-20"
+            />
+          </div>
+          <div class="flex justify-between text-xs text-white/50 mt-1">
+            <span>0</span>
+            <span>MAX (BTC)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-white/10 flex gap-2 justify-end">
+        <button
+          class="px-4 py-2 text-white rounded-md text-sm font-medium hover:bg-white/10 transition-colors cursor-pointer"
+          (click)="reset()"
+          type="button"
+        >
+          <div class="flex items-center gap-2">
+            <i-lucide [img]="rotateCcwIcon" class="text-white size-4"></i-lucide>
+            <span>Reset</span>
+          </div>
+        </button>
+        <button
+          class="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-500 transition-colors cursor-pointer"
+          (click)="closePopover()"
+          type="button"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  }
+</div>
