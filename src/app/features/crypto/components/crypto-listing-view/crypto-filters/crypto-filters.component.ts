@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { LucideAngularModule, ListFilterIcon } from 'lucide-angular';
 
 import * as CryptoActions from '../../../store/crypto.actions';
 
@@ -7,6 +8,7 @@ import * as CryptoActions from '../../../store/crypto.actions';
   selector: 'app-crypto-filters',
   templateUrl: './crypto-filters.component.html',
   styleUrl: './crypto-filters.component.scss',
+  imports: [LucideAngularModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CryptoFiltersComponent {
@@ -15,6 +17,8 @@ export class CryptoFiltersComponent {
   readonly name = signal('');
   readonly symbol = signal('');
   readonly minMarketCap = signal<number | null>(null);
+
+  readonly listFilterIcon = ListFilterIcon;
 
   updateName(value: string) {
     this.store.dispatch(CryptoActions.updateFilters({ filters: { name: value } }));
