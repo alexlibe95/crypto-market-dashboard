@@ -42,11 +42,11 @@ export const cryptoReducer = createReducer(
 
   on(CryptoActions.updateSort, (state, { active }) => {
     const isSameColumn = state.sort.active === active;
-    
+
     // 3-click cycle: asc -> desc -> null (reset)
     let direction: 'asc' | 'desc' | null = 'asc';
     let newActive: keyof CryptoCurrency | null = active;
-    
+
     if (isSameColumn) {
       if (state.sort.direction === 'asc') {
         direction = 'desc';

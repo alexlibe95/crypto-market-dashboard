@@ -3,7 +3,12 @@ import { DecimalPipe, UpperCasePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { LucideAngularModule, ArrowUpIcon, ArrowDownIcon } from 'lucide-angular';
 
-import { selectError, selectLoading, selectSortedCryptos, selectSort } from '../../../store/crypto.selectors';
+import {
+  selectError,
+  selectLoading,
+  selectSortedCryptos,
+  selectSort,
+} from '../../../store/crypto.selectors';
 import { FormattedPriceComponent } from './formatted-price/formatted-price.component';
 import { CryptoCurrency } from '../../../../../core/models/crypto.model';
 import * as CryptoActions from '../../../store/crypto.actions';
