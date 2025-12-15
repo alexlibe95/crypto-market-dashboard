@@ -1,6 +1,6 @@
 import { CryptoCurrency } from '../../../core/models/crypto.model';
 
-export type SortDirection = 'asc' | 'desc';
+export type SortDirection = 'asc' | 'desc' | null;
 
 
 export interface CryptoSort {
@@ -39,6 +39,6 @@ export const initialCryptoState: CryptoState = {
   },
   sort: {
     active: null,
-    direction: 'asc'
+    direction: null
   }
 };

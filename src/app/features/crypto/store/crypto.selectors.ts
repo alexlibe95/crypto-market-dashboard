@@ -58,13 +58,15 @@ export const selectMaxMarketCap = createSelector(selectCryptos, (cryptos: Crypto
   return Math.max(...cryptos.map((crypto) => crypto.market_cap || 0));
 });
 
+export const selectSort = createSelector(selectCryptoState, (state) => state.sort);
+
 export const selectSortedCryptos = createSelector(
   selectFilteredCryptos,
   selectCryptoState,
   (cryptos, state) => {
     const { active, direction } = state.sort;
 
-    if (!active) return cryptos;
+    if (!active || direction === null) return cryptos;
 
     return [...cryptos].sort((a, b) => {
       const aValue = a[active];

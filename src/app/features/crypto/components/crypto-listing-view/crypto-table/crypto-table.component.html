@@ -9,16 +9,126 @@
     <table class="min-w-full w-full table-auto border-collapse">
       <thead class="sticky top-0 bg-black/70">
         <tr>
-          <th class="px-4 py-2 text-left max-w-[120px] cursor-pointer" (click)="sortBy('id')">ID</th>
-          <th class="px-4 py-2 text-left max-w-[150px] cursor-pointer" (click)="sortBy('name')">Name</th>
-          <th class="px-4 py-2 text-left whitespace-nowrap cursor-pointer" (click)="sortBy('symbol')">Symbol</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('current_price')">Price (USD)</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('market_cap')">Market Cap</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('total_volume')">Total Volume</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('high_24h')">High 24h</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('low_24h')">Low 24h</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('price_change_percentage_24h')">Price Change % (24h)</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('circulating_supply')">Circulating Supply</th>
+          <th class="px-4 py-2 text-left max-w-[120px] cursor-pointer" (click)="sortBy('id')">
+            <div class="flex items-center gap-1">
+              @if (isSortedBy('id')) {
+                @if (getSortDirection('id') === 'asc') {
+                  <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                } @else {
+                  <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                }
+              }
+              <span>ID</span>
+            </div>
+          </th>
+          <th class="px-4 py-2 text-left max-w-[150px] cursor-pointer" (click)="sortBy('name')">
+            <div class="flex items-center gap-1">
+              @if (isSortedBy('name')) {
+                @if (getSortDirection('name') === 'asc') {
+                  <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                } @else {
+                  <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                }
+              }
+              <span>Name</span>
+            </div>
+          </th>
+          <th class="px-4 py-2 text-left whitespace-nowrap cursor-pointer" (click)="sortBy('symbol')">
+            <div class="flex items-center gap-1">
+              @if (isSortedBy('symbol')) {
+                @if (getSortDirection('symbol') === 'asc') {
+                  <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                } @else {
+                  <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                }
+              }
+              <span>Symbol</span>
+            </div>
+          </th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('current_price')">
+            <div class="flex items-center gap-1">
+              @if (isSortedBy('current_price')) {
+                @if (getSortDirection('current_price') === 'asc') {
+                  <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                } @else {
+                  <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                }
+              }
+              <span>Price (USD)</span>
+            </div>
+          </th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('market_cap')">
+            <div class="flex items-center gap-1">
+              @if (isSortedBy('market_cap')) {
+                @if (getSortDirection('market_cap') === 'asc') {
+                  <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                } @else {
+                  <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                }
+              }
+              <span>Market Cap</span>
+            </div>
+          </th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('total_volume')">
+            <div class="flex items-center gap-1">
+              @if (isSortedBy('total_volume')) {
+                @if (getSortDirection('total_volume') === 'asc') {
+                  <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                } @else {
+                  <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                }
+              }
+              <span>Total Volume</span>
+            </div>
+          </th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('high_24h')">
+            <div class="flex items-center gap-1">
+              @if (isSortedBy('high_24h')) {
+                @if (getSortDirection('high_24h') === 'asc') {
+                  <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                } @else {
+                  <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                }
+              }
+              <span>High 24h</span>
+            </div>
+          </th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('low_24h')">
+            <div class="flex items-center gap-1">
+              @if (isSortedBy('low_24h')) {
+                @if (getSortDirection('low_24h') === 'asc') {
+                  <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                } @else {
+                  <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                }
+              }
+              <span>Low 24h</span>
+            </div>
+          </th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('price_change_percentage_24h')">
+            <div class="flex items-center gap-1">
+              @if (isSortedBy('price_change_percentage_24h')) {
+                @if (getSortDirection('price_change_percentage_24h') === 'asc') {
+                  <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                } @else {
+                  <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                }
+              }
+              <span>Price Change % (24h)</span>
+            </div>
+          </th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('circulating_supply')">
+            <div class="flex items-center gap-1">
+              @if (isSortedBy('circulating_supply')) {
+                @if (getSortDirection('circulating_supply') === 'asc') {
+                  <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                } @else {
+                  <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
+                }
+              }
+              <span>Circulating Supply</span>
+            </div>
+          </th>
         </tr>
       </thead>
 
