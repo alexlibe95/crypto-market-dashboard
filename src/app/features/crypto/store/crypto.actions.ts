@@ -30,3 +30,7 @@ export const updateSort = createAction(
 export const updateSearch = createAction('[Crypto] Update Search', props<{ search: string }>());
 
 export const clearSearch = createAction('[Crypto] Clear Search');
+
+export const setPageIndex = createAction('[Crypto] Set Page Index', props<{ pageIndex: number }>());
+
+export const setPageSize = createAction('[Crypto] Set Page Size', props<{ pageSize: number }>());

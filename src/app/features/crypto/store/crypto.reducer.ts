@@ -70,5 +70,21 @@ export const cryptoReducer = createReducer(
   on(CryptoActions.clearSearch, (state) => ({
     ...state,
     search: initialCryptoState.search,
+  })),
+
+  on(CryptoActions.setPageIndex, (state, { pageIndex }) => ({
+    ...state,
+    pagination: {
+      ...state.pagination,
+      pageIndex,
+    },
+  })),
+
+  on(CryptoActions.setPageSize, (state, { pageSize }) => ({
+    ...state,
+    pagination: {
+      pageIndex: 0, // reset page when size changes
+      pageSize,
+    },
   }))
 );

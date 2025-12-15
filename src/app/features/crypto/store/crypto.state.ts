@@ -16,6 +16,11 @@ export interface CryptoFilters {
   maxPriceChange: number | null;
 }
 
+export interface CryptoPagination {
+  pageIndex: number;
+  pageSize: number;
+}
+
 export interface CryptoState {
   data: CryptoCurrency[];
   loading: boolean;
@@ -23,6 +28,7 @@ export interface CryptoState {
   filters: CryptoFilters;
   sort: CryptoSort;
   search: string;
+  pagination: CryptoPagination;
 }
 
 export const initialCryptoState: CryptoState = {
@@ -42,4 +48,8 @@ export const initialCryptoState: CryptoState = {
     direction: null,
   },
   search: '',
+  pagination: {
+    pageIndex: 0,
+    pageSize: 25,
+  },
 };

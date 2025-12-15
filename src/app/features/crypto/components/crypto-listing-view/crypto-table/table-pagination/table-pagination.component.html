@@ -1,0 +1,21 @@
+<div class="flex items-center justify-between px-4 py-2 text-sm">
+  <div>
+    <button (click)="setPageIndex(0)">First</button>
+    <button (click)="setPageIndex(pagination().pageIndex - 1)" [disabled]="pagination().pageIndex === 0">
+      Prev
+    </button>
+    <span> Page {{ pagination().pageIndex + 1 }} </span>
+    <button
+      (click)="setPageIndex(pagination().pageIndex + 1)"
+      [disabled]="(pagination().pageIndex + 1) * pagination().pageSize >= total()"
+    >
+      Next
+    </button>
+  </div>
+
+  <select (change)="setPageSize($any($event.target).value)">
+    @for (option of pageSizeOptions; track option) {
+      <option [value]="option">{{ option }}</option>
+    }
+  </select>
+</div>
