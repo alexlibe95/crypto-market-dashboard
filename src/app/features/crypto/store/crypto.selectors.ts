@@ -25,9 +25,16 @@ export const selectFilteredCryptos = createSelector(
       const matchesSymbol =
         !filters.symbol || crypto.symbol.toLowerCase().includes(filters.symbol.toLowerCase());
 
-      const matchesMarketCap =
+      const matchesMinMarketCap =
         filters.minMarketCap == null || crypto.market_cap >= filters.minMarketCap;
+      const matchesMaxMarketCap =
+        filters.maxMarketCap == null || crypto.market_cap <= filters.maxMarketCap;
 
-      return matchesName && matchesSymbol && matchesMarketCap;
+      return matchesName && matchesSymbol && matchesMinMarketCap && matchesMaxMarketCap;
     })
 );
+
+export const selectMaxMarketCap = createSelector(selectCryptos, (cryptos: CryptoCurrency[]) => {
+  if (!cryptos || cryptos.length === 0) return 0;
+  return Math.max(...cryptos.map((crypto) => crypto.market_cap || 0));
+});

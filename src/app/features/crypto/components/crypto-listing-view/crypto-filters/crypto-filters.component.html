@@ -43,17 +43,46 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-white/90 mb-2" for="filter-market-cap">
-            Min Market Cap
-          </label>
-          <input
-            id="filter-market-cap"
-            type="number"
-            placeholder="Minimum market cap"
-            class="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-md text-white text-sm placeholder-white/40 focus:outline-none focus:border-white/40 focus:bg-white/8 transition-colors"
-            [value]="minMarketCap() ?? ''"
-            (input)="updateMarketCap($any($event.target).valueAsNumber || null)"
-          />
+          <div class="flex flex-col justify-between mb-2">
+            <label class="block text-sm font-medium text-white/90" for="filter-market-cap">
+              Market Cap Range
+            </label>
+            <div class="flex gap-2 text-sm text-white/70">
+              <span>Min: {{ minDisplayValue() | number }}</span>
+              <span>Max: {{ maxDisplayValue() | number }}</span>
+            </div>
+          </div>
+          <div class="relative h-8">
+            <div class="slider-track"></div>
+            <div
+              class="slider-range"
+              [style.left.%]="rangePercentage().min"
+              [style.width.%]="rangePercentage().max - rangePercentage().min"
+            ></div>
+            <input
+              id="filter-market-cap-min"
+              type="range"
+              min="0"
+              [max]="maxMarketCap()"
+              [value]="minSliderValue()"
+              (input)="onMinSliderChange($event)"
+              class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider slider-min z-10 top-0"
+            />
+            <input
+              id="filter-market-cap-max"
+              type="range"
+              min="0"
+              [max]="maxMarketCap()"
+              [value]="maxSliderValue()"
+              (input)="onMaxSliderChange($event)"
+              class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider slider-max z-20 top-0"
+            />
+          </div>
+          <div class="flex justify-between text-xs text-white/50 mt-1">
+            <span>0</span>
+            <!-- <span>{{ maxMarketCap() | number }}</span> -->
+             <span>MAX (BTC)</span>
+          </div>
         </div>
       </div>
 
