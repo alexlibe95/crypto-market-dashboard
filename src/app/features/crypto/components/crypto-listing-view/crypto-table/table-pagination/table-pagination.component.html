@@ -1,21 +1,83 @@
-<div class="flex items-center justify-between px-4 py-2 text-sm">
-  <div>
-    <button (click)="setPageIndex(0)">First</button>
-    <button (click)="setPageIndex(pagination().pageIndex - 1)" [disabled]="pagination().pageIndex === 0">
-      Prev
-    </button>
-    <span> Page {{ pagination().pageIndex + 1 }} </span>
+<div class="flex items-center justify-between px-4 py-3 border-t border-white/10 bg-zinc-900/50">
+  <div class="flex items-center gap-2">
+    <!-- First Page Button -->
     <button
-      (click)="setPageIndex(pagination().pageIndex + 1)"
-      [disabled]="(pagination().pageIndex + 1) * pagination().pageSize >= total()"
+      type="button"
+      class="relative cursor-pointer p-2 rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      (click)="goToFirstPage()"
+      [disabled]="!hasPreviousPage()"
+      aria-label="First page"
     >
-      Next
+      <i-lucide [img]="chevronLeftIcons" class="w-4 h-4"></i-lucide>
+    </button>
+    
+    <!-- Previous Page Button -->
+    <button
+      type="button"
+      class="p-2 cursor-pointer rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      (click)="goToPreviousPage()"
+      [disabled]="!hasPreviousPage()"
+      aria-label="Previous page"
+    >
+      <i-lucide [img]="chevronLeftIcon" class="w-4 h-4"></i-lucide>
+    </button>
+    
+    <!-- Page Numbers -->
+    <div class="flex items-center gap-1">
+      @for (page of visiblePages(); track page) {
+        <button
+          type="button"
+          class="min-w-[32px] h-8 px-2 cursor-pointer rounded-md text-sm font-medium transition-colors"
+          [class.bg-blue-600]="pagination().pageIndex === page"
+          [class.text-white]="pagination().pageIndex === page"
+          [class.text-white/70]="pagination().pageIndex !== page"
+          [class.hover:bg-white/10]="pagination().pageIndex !== page"
+          [class.hover:text-white]="pagination().pageIndex !== page"
+          (click)="setPageIndex(page)"
+        >
+          {{ page + 1 }}
+        </button>
+      }
+    </div>
+    
+    <!-- Next Page Button -->
+    <button
+      type="button"
+      class="p-2 cursor-pointer rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      (click)="goToNextPage()"
+      [disabled]="!hasNextPage()"
+      aria-label="Next page"
+    >
+      <i-lucide [img]="chevronRightIcon" class="w-4 h-4"></i-lucide>
+    </button>
+    
+    <!-- Last Page Button -->
+    <button
+      type="button"
+      class="relative p-2 cursor-pointer rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      (click)="goToLastPage()"
+      [disabled]="!hasNextPage()"
+      aria-label="Last page"
+    >
+      <i-lucide [img]="chevronRightIcons" class="w-4 h-4"></i-lucide>
     </button>
   </div>
 
-  <select (change)="setPageSize($any($event.target).value)">
-    @for (option of pageSizeOptions; track option) {
-      <option [value]="option">{{ option }}</option>
-    }
-  </select>
+  <div class="flex items-center gap-2">
+    <span class="text-sm text-white/70">Items per page:</span>
+    <select
+      class="px-3 py-1.5 bg-white/5 border border-white/20 rounded-md text-white text-sm focus:outline-none focus:border-white/40 focus:bg-white/8 transition-colors cursor-pointer"
+      [value]="pagination().pageSize"
+      (change)="setPageSize($any($event.target).value)"
+    >
+      @for (option of pageSizeOptions; track option) {
+        <option [value]="option" [selected]="pagination().pageSize === option">
+          {{ option }}
+        </option>
+      }
+    </select>
+    <span class="text-sm text-white/70">
+      {{ displayRange().start }}-{{ displayRange().end }} of {{ total() }}
+    </span>
+  </div>
 </div>
