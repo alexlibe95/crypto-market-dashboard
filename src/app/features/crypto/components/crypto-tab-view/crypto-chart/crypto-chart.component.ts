@@ -1,5 +1,16 @@
-import { Component, ChangeDetectionStrategy, inject, computed, signal } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  computed,
+  signal,
+  PLATFORM_ID,
+  DestroyRef,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
+import { isPlatformBrowser } from '@angular/common';
+import { fromEvent } from 'rxjs';
 import type { EChartsCoreOption } from 'echarts/core';
 import { NgxEchartsDirective, ThemeOption } from 'ngx-echarts';
 
@@ -22,6 +33,8 @@ type ChartType = 'bar' | 'pie';
 })
 export class CryptoChartComponent {
   private store = inject(Store);
+  private platformId = inject(PLATFORM_ID);
+  private destroyRef = inject(DestroyRef);
 
   readonly cryptos = this.store.selectSignal(selectSearchedCryptos);
   readonly filters = this.store.selectSignal(selectFilters);
@@ -31,6 +44,40 @@ export class CryptoChartComponent {
   readonly chartType = signal<ChartType>('bar');
   readonly cryptoCount = signal<number>(20);
   readonly countOptions = [5, 10, 20, 50];
+  readonly isMobile = signal<boolean>(false);
+
+  constructor() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.updateMobileState();
+      fromEvent(window, 'resize')
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => this.updateMobileState());
+    }
+  }
+
+  private updateMobileState(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.isMobile.set(window.innerWidth < 768); // md breakpoint (matches Tailwind md: classes)
+    }
+  }
+
+  /**
+   * Formats large numbers with abbreviations (B, M, K)
+   * @param value - The number to format
+   * @returns Formatted string (e.g., "123B", "45M", "1.2K")
+   */
+  private formatMarketCap(value: number): string {
+    if (value >= 1e9) {
+      return `$${(value / 1e9).toFixed(1)}B`;
+    }
+    if (value >= 1e6) {
+      return `$${(value / 1e6).toFixed(1)}M`;
+    }
+    if (value >= 1e3) {
+      return `$${(value / 1e3).toFixed(1)}K`;
+    }
+    return `$${value.toFixed(0)}`;
+  }
 
   readonly hasActiveFilters = computed(() => {
     const currentFilters = this.filters();
@@ -73,19 +120,65 @@ export class CryptoChartComponent {
       : `Top ${count} Crypto by Market Cap`;
 
     if (type === 'pie') {
+      const isMobileView = this.isMobile();
+
       return {
+        grid: {
+          left: isMobileView ? '5%' : '10%',
+          right: isMobileView ? '5%' : '10%',
+          top: isMobileView ? '15%' : '10%',
+          bottom: isMobileView ? '25%' : '15%',
+          containLabel: true,
+        },
         title: {
           text: titleText,
           left: 'center',
-          top: 10,
+          top: isMobileView ? 5 : 10,
           textStyle: {
             color: '#ffffff',
-            fontSize: 18,
+            fontSize: isMobileView ? 14 : 18,
             fontWeight: 'normal',
           },
         },
         tooltip: {
           trigger: 'item',
+          confine: true, // Keep tooltip within chart area
+          position: (
+            point: number[],
+            params: unknown,
+            dom: HTMLElement,
+            rect: { x: number; y: number; width: number; height: number },
+            size: { viewSize: [number, number]; contentSize: [number, number] }
+          ) => {
+            // Position tooltip to stay within chart container bounds
+            const [x, y] = point;
+            const tooltipWidth = dom.offsetWidth || 200;
+            const tooltipHeight = dom.offsetHeight || 100;
+            // Use actual chart container dimensions from size parameter
+            const chartWidth = size.viewSize[0];
+            const chartHeight = size.viewSize[1];
+
+            let posX = x;
+            let posY = y;
+
+            // Adjust horizontal position
+            if (x + tooltipWidth > chartWidth) {
+              posX = chartWidth - tooltipWidth - 10;
+            }
+            if (posX < 10) {
+              posX = 10;
+            }
+
+            // Adjust vertical position
+            if (y + tooltipHeight > chartHeight) {
+              posY = chartHeight - tooltipHeight - 10;
+            }
+            if (posY < 10) {
+              posY = 10;
+            }
+
+            return [posX, posY];
+          },
           formatter: (params: unknown) => {
             const echartsParam = params as {
               data: { name: string; value: number; raw: (typeof sortedData)[0] };
@@ -103,19 +196,28 @@ export class CryptoChartComponent {
           },
         },
         legend: {
-          orient: 'vertical',
-          left: 'left',
-          top: 'middle',
+          orient: 'horizontal',
+          left: 'center',
+          bottom: isMobileView ? 5 : 0,
+          itemWidth: isMobileView ? 12 : 25,
+          itemHeight: isMobileView ? 8 : 14,
+          itemGap: isMobileView ? 5 : 10,
           textStyle: {
             color: '#ffffff',
+            fontSize: isMobileView ? 10 : 12,
           },
         },
         series: [
           {
             type: 'pie',
-            radius: ['40%', '70%'],
-            center: ['60%', '50%'],
-            avoidLabelOverlap: false,
+            radius: isMobileView ? ['25%', '50%'] : ['40%', '70%'],
+            center: ['50%', isMobileView ? '42%' : '45%'],
+            avoidLabelOverlap: true,
+            labelLine: {
+              show: true,
+              length: isMobileView ? 10 : 15,
+              length2: isMobileView ? 5 : 10,
+            },
             itemStyle: {
               borderRadius: 8,
               borderColor: 'rgba(0, 0, 0, 0.3)',
@@ -123,13 +225,18 @@ export class CryptoChartComponent {
             },
             label: {
               show: true,
-              formatter: '{b}: {c}',
+              formatter: (params: unknown) => {
+                const echartsParam = params as { name: string; value: number };
+                if (!echartsParam) return '';
+                return `${echartsParam.name}: ${this.formatMarketCap(echartsParam.value)}`;
+              },
               color: '#ffffff',
+              fontSize: isMobileView ? 9 : 12,
             },
             emphasis: {
               label: {
                 show: true,
-                fontSize: 14,
+                fontSize: isMobileView ? 12 : 14,
                 fontWeight: 'bold',
               },
             },
@@ -160,6 +267,7 @@ export class CryptoChartComponent {
         axisPointer: {
           type: 'shadow',
         },
+        confine: true, // Keep tooltip within chart area
         formatter: (params: unknown) => {
           const echartsParams = params as {
             dataIndex: number;

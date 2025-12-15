@@ -6,6 +6,8 @@ import { DecimalPipe } from '@angular/common';
 import { FormattedPriceComponent } from './formatted-price.component';
 
 describe('FormattedPriceComponent', () => {
+  let component: FormattedPriceComponent;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FormattedPriceComponent, DecimalPipe],
@@ -15,11 +17,16 @@ describe('FormattedPriceComponent', () => {
         provideStore(),
       ],
     }).compileComponents();
+
+    const fixture = TestBed.createComponent(FormattedPriceComponent);
+    component = fixture.componentInstance;
   });
 
   it('should create the component', () => {
-    const fixture = TestBed.createComponent(FormattedPriceComponent);
-    const component = fixture.componentInstance;
     expect(component).toBeTruthy();
+  });
+
+  it('should have value input defined', () => {
+    expect(component.value).toBeDefined();
   });
 });

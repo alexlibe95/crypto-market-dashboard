@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Only hide overflow on desktop/tablet portrait (width >= 768px AND height >= 600px) */
+/* Landscape mobile devices (width >= 768px but height < 600px) should allow scrolling */
+@media (min-width: 768px) and (min-height: 600px) {
+  :host {
+    overflow: hidden;
+  }
+}
