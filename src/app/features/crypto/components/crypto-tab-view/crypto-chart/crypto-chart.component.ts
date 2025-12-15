@@ -5,9 +5,12 @@ import {
   computed,
   signal,
   PLATFORM_ID,
+  DestroyRef,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { isPlatformBrowser } from '@angular/common';
+import { fromEvent } from 'rxjs';
 import type { EChartsCoreOption } from 'echarts/core';
 import { NgxEchartsDirective, ThemeOption } from 'ngx-echarts';
 
@@ -31,6 +34,7 @@ type ChartType = 'bar' | 'pie';
 export class CryptoChartComponent {
   private store = inject(Store);
   private platformId = inject(PLATFORM_ID);
+  private destroyRef = inject(DestroyRef);
 
   readonly cryptos = this.store.selectSignal(selectSearchedCryptos);
   readonly filters = this.store.selectSignal(selectFilters);
@@ -45,13 +49,15 @@ export class CryptoChartComponent {
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
       this.updateMobileState();
-      window.addEventListener('resize', () => this.updateMobileState());
+      fromEvent(window, 'resize')
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => this.updateMobileState());
     }
   }
 
   private updateMobileState(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.isMobile.set(window.innerWidth < 640); // sm breakpoint
+      this.isMobile.set(window.innerWidth < 768); // md breakpoint (matches Tailwind md: classes)
     }
   }
 

@@ -13,14 +13,14 @@ body {
 /* Mobile viewport height fix */
 html {
   /* Use dynamic viewport height for better mobile support */
-  height: 100dvh;
   height: 100vh; /* Fallback for browsers that don't support dvh */
+  height: 100dvh;
 }
 
 body {
   height: 100%;
-  min-height: 100dvh;
   min-height: 100vh; /* Fallback */
+  min-height: 100dvh;
   position: fixed;
   width: 100%;
   overflow: hidden;

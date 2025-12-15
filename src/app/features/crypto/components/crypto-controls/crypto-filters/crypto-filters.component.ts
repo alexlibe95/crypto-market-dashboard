@@ -6,9 +6,12 @@ import {
   computed,
   HostListener,
   PLATFORM_ID,
+  DestroyRef,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { isPlatformBrowser } from '@angular/common';
+import { fromEvent } from 'rxjs';
 import { LucideAngularModule, ListFilterIcon, RotateCcwIcon, XIcon } from 'lucide-angular';
 
 import * as CryptoActions from '../../../store/crypto.actions';
@@ -24,6 +27,7 @@ import { selectMaxMarketCap, selectFilters } from '../../../store/crypto.selecto
 export class CryptoFiltersComponent {
   private readonly store = inject(Store);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly isOpen = signal(false);
   readonly isMobile = signal<boolean>(false);
@@ -31,13 +35,15 @@ export class CryptoFiltersComponent {
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
       this.updateMobileState();
-      window.addEventListener('resize', () => this.updateMobileState());
+      fromEvent(window, 'resize')
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => this.updateMobileState());
     }
   }
 
   private updateMobileState(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.isMobile.set(window.innerWidth < 640); // sm breakpoint
+      this.isMobile.set(window.innerWidth < 768); // md breakpoint (matches Tailwind md: classes)
     }
   }
   readonly name = signal('');
