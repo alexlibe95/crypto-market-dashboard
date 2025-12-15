@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import {
   selectError,
   selectLoading,
-  selectVisibleCryptos,
+  selectSortedCryptos,
   selectSort,
 } from '../../../store/crypto.selectors';
 import { FormattedPriceComponent } from './formatted-price/formatted-price.component';
@@ -24,7 +24,7 @@ import * as CryptoActions from '../../../store/crypto.actions';
 export class CryptoTableComponent {
   private readonly store = inject(Store);
 
-  readonly cryptos = this.store.selectSignal(selectVisibleCryptos);
+  readonly cryptos = this.store.selectSignal(selectSortedCryptos);
   readonly loading = this.store.selectSignal(selectLoading);
   readonly error = this.store.selectSignal(selectError);
   readonly sort = this.store.selectSignal(selectSort);
