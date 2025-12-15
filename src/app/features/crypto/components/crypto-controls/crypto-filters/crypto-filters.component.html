@@ -22,7 +22,7 @@
 
     <!-- Popover/Modal -->
     <div
-      class="popover-dropdown z-50 bg-zinc-800 border border-white/20 rounded-lg shadow-xl fixed md:absolute top-1/2 md:top-full left-1/2 md:left-auto right-auto md:right-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 mt-0 md:mt-2 w-[calc(100vw-2rem)] md:w-80 max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-y-visible"
+      class="popover-dropdown z-50 bg-zinc-800 border border-white/20 rounded-lg shadow-xl fixed md:absolute top-[50vh] md:top-full left-1/2 md:left-auto right-auto md:right-0 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 md:translate-y-0 mt-0 md:mt-2 w-[calc(100vw-2rem)] md:w-80 max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-y-visible"
     >
       <div class="p-4 border-b border-white/10 flex items-center justify-between">
         <h3 class="text-lg font-semibold text-white">Filters</h3>
@@ -36,7 +36,13 @@
         </button>
       </div>
 
-      <div class="p-4 space-y-4">
+      <div
+        class="p-4"
+        [class.space-y-4]="!isSmallHeight()"
+        [class.grid]="isSmallHeight()"
+        [class.grid-cols-2]="isSmallHeight()"
+        [class.gap-4]="isSmallHeight()"
+      >
         <div>
           <label class="block text-sm font-medium text-white/90 mb-2" for="filter-name">
             Name
@@ -64,7 +70,7 @@
             (input)="updateSymbol($any($event.target).value)"
           />
         </div>
-        <div>
+        <div [class.col-span-2]="isSmallHeight()">
           <label class="block text-sm font-medium text-white/90 mb-2" for="filter-price-change">
             Price Change (24h)
           </label>
@@ -100,7 +106,7 @@
             </div>
           </div>
         </div>
-        <div>
+        <div [class.col-span-2]="isSmallHeight()">
           <label class="block text-sm font-medium text-white/90 mb-2" for="filter-market-cap">
             Market Cap
           </label>

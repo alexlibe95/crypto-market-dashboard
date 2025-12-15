@@ -143,13 +143,20 @@ export class CryptoChartComponent {
         tooltip: {
           trigger: 'item',
           confine: true, // Keep tooltip within chart area
-          position: (point: number[], params: unknown, dom: HTMLElement) => {
-            // Position tooltip to stay within viewport
+          position: (
+            point: number[],
+            params: unknown,
+            dom: HTMLElement,
+            rect: { x: number; y: number; width: number; height: number },
+            size: { viewSize: [number, number]; contentSize: [number, number] }
+          ) => {
+            // Position tooltip to stay within chart container bounds
             const [x, y] = point;
             const tooltipWidth = dom.offsetWidth || 200;
             const tooltipHeight = dom.offsetHeight || 100;
-            const chartWidth = isPlatformBrowser(this.platformId) ? window.innerWidth : 400;
-            const chartHeight = isPlatformBrowser(this.platformId) ? window.innerHeight : 600;
+            // Use actual chart container dimensions from size parameter
+            const chartWidth = size.viewSize[0];
+            const chartHeight = size.viewSize[1];
 
             let posX = x;
             let posY = y;
@@ -260,6 +267,7 @@ export class CryptoChartComponent {
         axisPointer: {
           type: 'shadow',
         },
+        confine: true, // Keep tooltip within chart area
         formatter: (params: unknown) => {
           const echartsParams = params as {
             dataIndex: number;

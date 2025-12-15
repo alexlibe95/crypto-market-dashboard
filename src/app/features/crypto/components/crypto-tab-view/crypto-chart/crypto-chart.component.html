@@ -56,8 +56,15 @@
     </div>
 
     <!-- Chart Container -->
-    <div class="flex-1 min-h-0 w-full demo-chart" style="min-height: 400px">
-      <div echarts [options]="chartOptions()" [theme]="theme" class="w-full h-full"></div>
+    <div class="flex-1 min-h-0 w-full h-full demo-chart" style="height: 100%">
+      <div
+        echarts
+        [options]="chartOptions()"
+        [theme]="theme"
+        [autoResize]="true"
+        class="w-full h-full"
+        style="height: 100%"
+      ></div>
     </div>
   }
 </div>

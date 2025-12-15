@@ -31,6 +31,7 @@ export class CryptoFiltersComponent {
 
   readonly isOpen = signal(false);
   readonly isMobile = signal<boolean>(false);
+  readonly isSmallHeight = signal<boolean>(false);
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
@@ -44,6 +45,7 @@ export class CryptoFiltersComponent {
   private updateMobileState(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.isMobile.set(window.innerWidth < 768); // md breakpoint (matches Tailwind md: classes)
+      this.isSmallHeight.set(window.innerHeight < 600); // Small height for compact layout
     }
   }
   readonly name = signal('');
