@@ -12,7 +12,6 @@ import { selectPagination, selectTotalResults } from '../../../../store/crypto.s
 
 @Component({
   selector: 'app-table-pagination',
-  standalone: true,
   imports: [LucideAngularModule],
   templateUrl: './table-pagination.component.html',
   styleUrl: './table-pagination.component.scss',

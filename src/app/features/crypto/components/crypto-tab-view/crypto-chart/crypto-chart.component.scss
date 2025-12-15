@@ -1,0 +1,23 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.demo-chart {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+
+  > div {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}

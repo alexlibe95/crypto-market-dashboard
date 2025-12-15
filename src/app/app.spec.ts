@@ -3,8 +3,8 @@ import { provideZonelessChangeDetection, provideBrowserGlobalErrorListeners } fr
 import { provideStore } from '@ngrx/store';
 
 import { App } from './app';
-import { CryptoTableComponent } from './features/crypto/components/crypto-listing-view/crypto-table/crypto-table.component';
-import { CryptoFiltersComponent } from './features/crypto/components/crypto-listing-view/crypto-filters/crypto-filters.component';
+import { CryptoTableComponent } from './features/crypto/components/crypto-tab-view/crypto-table/crypto-table.component';
+import { CryptoFiltersComponent } from './features/crypto/components/crypto-controls/crypto-filters/crypto-filters.component';
 
 describe('App', () => {
   beforeEach(async () => {

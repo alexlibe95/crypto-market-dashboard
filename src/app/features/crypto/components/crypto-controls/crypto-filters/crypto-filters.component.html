@@ -1,11 +1,11 @@
 <div class="relative flex justify-end">
   <button
-    class="filter-button relative bg-gray-700 text-white px-2 py-2 rounded-md cursor-pointer hover:bg-gray-600 transition-colors"
+    class="filter-button relative bg-gray-700 text-white px-2.5 py-2.5 rounded-md cursor-pointer hover:bg-gray-600 transition-colors"
     (click)="togglePopover()"
     type="button"
     title="Filter by name, symbol, market cap, or price change percentage"
   >
-    <i-lucide [img]="listFilterIcon" class="text-white"></i-lucide>
+    <i-lucide [img]="listFilterIcon" class="text-white size-4"></i-lucide>
     @if (hasActiveFilters()) {
       <span
         class="absolute top-0 right-0 w-3 h-3 bg-red-400 rounded-full border-2 border-gray-700 animate-pulse"

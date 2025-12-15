@@ -7,6 +7,27 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
+import { provideEchartsCore } from 'ngx-echarts';
+import * as echarts from 'echarts/core';
+import { BarChart, PieChart } from 'echarts/charts';
+import {
+  GridComponent,
+  TooltipComponent,
+  TitleComponent,
+  LegendComponent,
+} from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
+
+// Register ECharts components
+echarts.use([
+  BarChart,
+  PieChart,
+  GridComponent,
+  TooltipComponent,
+  TitleComponent,
+  LegendComponent,
+  CanvasRenderer,
+]);
 
 import { routes } from './app.routes';
 import { CryptoEffects } from './features/crypto/store/crypto.effects';
@@ -22,5 +43,6 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       [cryptoFeatureKey]: cryptoReducer,
     }),
+    provideEchartsCore({ echarts }),
   ],
 };

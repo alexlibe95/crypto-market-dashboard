@@ -1,0 +1,63 @@
+<div class="flex-1 flex flex-col min-h-0 w-full h-full">
+  @if (cryptos().length === 0) {
+    <div class="flex items-center justify-center h-full text-white/50">
+      <p>No data available to display</p>
+    </div>
+  } @else {
+    <!-- Chart Controls -->
+    <div class="flex justify-between items-center mb-4 flex-shrink-0">
+      <!-- Chart Type Buttons (Left) -->
+      <div class="flex gap-2">
+        <button
+          type="button"
+          class="px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer"
+          [class.bg-blue-600]="chartType() === 'bar'"
+          [class.text-white]="chartType() === 'bar'"
+          [class.bg-white/10]="chartType() !== 'bar'"
+          [class.text-white/70]="chartType() !== 'bar'"
+          [class.hover:bg-white/20]="chartType() !== 'bar'"
+          (click)="setChartType('bar')"
+        >
+          Bar
+        </button>
+        <button
+          type="button"
+          class="px-4 py-2 text-sm font-medium rounded-md transition-colors cursor-pointer"
+          [class.bg-blue-600]="chartType() === 'pie'"
+          [class.text-white]="chartType() === 'pie'"
+          [class.bg-white/10]="chartType() !== 'pie'"
+          [class.text-white/70]="chartType() !== 'pie'"
+          [class.hover:bg-white/20]="chartType() !== 'pie'"
+          (click)="setChartType('pie')"
+        >
+          Pie
+        </button>
+      </div>
+
+      <!-- Crypto Count Selector (Right) -->
+      <div class="flex items-center gap-2">
+        <label class="text-sm text-white/70" for="crypto-count">Show:</label>
+        <select
+          id="crypto-count"
+          (change)="setCryptoCount(+$any($event.target).value)"
+          class="bg-white/5 border border-white/20 rounded-md text-white text-sm focus:outline-none focus:border-white/40 focus:bg-white/8 transition-colors py-1 px-2 cursor-pointer"
+        >
+          @for (option of countOptions; track option) {
+            <option
+              [value]="option"
+              [selected]="cryptoCount() === option"
+              class="bg-zinc-800 text-white"
+            >
+              {{ option }}
+            </option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <!-- Chart Container -->
+    <div class="flex-1 min-h-0 w-full demo-chart" style="min-height: 400px">
+      <div echarts [options]="chartOptions()" [theme]="theme" class="w-full h-full"></div>
+    </div>
+  }
+</div>

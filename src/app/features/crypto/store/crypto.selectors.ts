@@ -64,7 +64,7 @@ const _selectFilteredCryptos = createSelector(
     })
 );
 
-const _selectSearchedCryptos = createSelector(
+export const selectSearchedCryptos = createSelector(
   _selectFilteredCryptos,
   selectSearch,
   (cryptos: CryptoCurrency[], search: string) => {
@@ -83,7 +83,7 @@ const _selectSearchedCryptos = createSelector(
 );
 
 const _selectSortedCryptos = createSelector(
-  _selectSearchedCryptos,
+  selectSearchedCryptos,
   selectSort,
   (cryptos: CryptoCurrency[], sort: CryptoSort) => {
     const { active, direction } = sort;
