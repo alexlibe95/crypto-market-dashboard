@@ -11,4 +11,3 @@ import { CryptoFiltersComponent } from './crypto-filters/crypto-filters.componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CryptoControlsComponent {}
-

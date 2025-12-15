@@ -19,4 +19,3 @@ export class CryptoTabViewComponent {
     this.activeTab.set(tab);
   }
 }
-

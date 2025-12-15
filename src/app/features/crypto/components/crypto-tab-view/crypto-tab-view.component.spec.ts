@@ -8,7 +8,7 @@ describe('CryptoTabViewComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CryptoTabViewComponent],
-      providers: [  
+      providers: [
         provideZonelessChangeDetection(),
         provideBrowserGlobalErrorListeners(),
         provideStore(),
