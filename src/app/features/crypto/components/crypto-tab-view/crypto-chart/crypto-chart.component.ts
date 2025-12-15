@@ -115,7 +115,7 @@ export class CryptoChartComponent {
 
     if (type === 'pie') {
       const isMobileView = this.isMobile();
-      
+
       return {
         grid: {
           left: isMobileView ? '5%' : '10%',
@@ -144,10 +144,10 @@ export class CryptoChartComponent {
             const tooltipHeight = dom.offsetHeight || 100;
             const chartWidth = isPlatformBrowser(this.platformId) ? window.innerWidth : 400;
             const chartHeight = isPlatformBrowser(this.platformId) ? window.innerHeight : 600;
-            
+
             let posX = x;
             let posY = y;
-            
+
             // Adjust horizontal position
             if (x + tooltipWidth > chartWidth) {
               posX = chartWidth - tooltipWidth - 10;
@@ -155,7 +155,7 @@ export class CryptoChartComponent {
             if (posX < 10) {
               posX = 10;
             }
-            
+
             // Adjust vertical position
             if (y + tooltipHeight > chartHeight) {
               posY = chartHeight - tooltipHeight - 10;
@@ -163,7 +163,7 @@ export class CryptoChartComponent {
             if (posY < 10) {
               posY = 10;
             }
-            
+
             return [posX, posY];
           },
           formatter: (params: unknown) => {

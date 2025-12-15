@@ -5,6 +5,8 @@ import { provideStore } from '@ngrx/store';
 import { CryptoFiltersComponent } from './crypto-filters.component';
 
 describe('CryptoFiltersComponent', () => {
+  let component: CryptoFiltersComponent;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CryptoFiltersComponent],
@@ -14,11 +16,27 @@ describe('CryptoFiltersComponent', () => {
         provideStore(),
       ],
     }).compileComponents();
+
+    const fixture = TestBed.createComponent(CryptoFiltersComponent);
+    component = fixture.componentInstance;
   });
 
   it('should create the component', () => {
-    const fixture = TestBed.createComponent(CryptoFiltersComponent);
-    const component = fixture.componentInstance;
     expect(component).toBeTruthy();
+  });
+
+  it('should toggle popover open state', () => {
+    expect(component.isOpen()).toBe(false);
+    component.togglePopover();
+    expect(component.isOpen()).toBe(true);
+    component.togglePopover();
+    expect(component.isOpen()).toBe(false);
+  });
+
+  it('should close popover when closePopover is called', () => {
+    component.togglePopover();
+    expect(component.isOpen()).toBe(true);
+    component.closePopover();
+    expect(component.isOpen()).toBe(false);
   });
 });
