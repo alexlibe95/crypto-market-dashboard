@@ -9,16 +9,19 @@
     <table class="min-w-full w-full table-auto border-collapse">
       <thead class="sticky top-0 bg-black/70">
         <tr>
-          <th class="px-4 py-2 text-left max-w-[120px]">ID</th>
-          <th class="px-4 py-2 text-left max-w-[150px]">Name</th>
-          <th class="px-4 py-2 text-left whitespace-nowrap">Symbol</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">Price (USD)</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">Market Cap</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">Total Volume</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">High 24h</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">Low 24h</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">Price Change % (24h)</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">Circulating Supply</th>
+          @for (column of columns; track column.key) {
+            <th
+              app-table-header
+              [columnKey]="column.key"
+              [label]="column.label"
+              [align]="column.align"
+              [additionalClasses]="column.additionalClasses || ''"
+              [sortable]="column.sortable"
+              [isSortedBy]="isSortedBy(column.key)"
+              [sortDirection]="getSortDirection(column.key)"
+              [onSort]="sortBy"
+            ></th>
+          }
         </tr>
       </thead>
 
