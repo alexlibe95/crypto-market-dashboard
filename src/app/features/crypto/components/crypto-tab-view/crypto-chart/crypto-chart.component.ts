@@ -3,7 +3,11 @@ import { Store } from '@ngrx/store';
 import type { EChartsCoreOption } from 'echarts/core';
 import { NgxEchartsDirective, ThemeOption } from 'ngx-echarts';
 
-import { selectSearchedCryptos } from '../../../store/crypto.selectors';
+import {
+  selectSearchedCryptos,
+  selectFilters,
+  selectSearch,
+} from '../../../store/crypto.selectors';
 import { CryptoTheme } from './crypto-chart-theme';
 
 type ChartType = 'bar' | 'pie';
@@ -20,11 +24,27 @@ export class CryptoChartComponent {
   private store = inject(Store);
 
   readonly cryptos = this.store.selectSignal(selectSearchedCryptos);
+  readonly filters = this.store.selectSignal(selectFilters);
+  readonly search = this.store.selectSignal(selectSearch);
   readonly theme: ThemeOption = CryptoTheme;
 
   readonly chartType = signal<ChartType>('bar');
   readonly cryptoCount = signal<number>(20);
   readonly countOptions = [5, 10, 20, 50];
+
+  readonly hasActiveFilters = computed(() => {
+    const currentFilters = this.filters();
+    const currentSearch = this.search();
+    return (
+      currentFilters.name.trim() !== '' ||
+      currentFilters.symbol.trim() !== '' ||
+      currentFilters.minMarketCap !== null ||
+      currentFilters.maxMarketCap !== null ||
+      currentFilters.minPriceChange !== null ||
+      currentFilters.maxPriceChange !== null ||
+      currentSearch.trim() !== ''
+    );
+  });
 
   readonly chartOptions = computed<EChartsCoreOption>(() => {
     const allCryptos = this.cryptos();
@@ -47,7 +67,10 @@ export class CryptoChartComponent {
       };
     }
 
-    const titleText = `Top ${count} Cryptocurrencies by Market Cap`;
+    const hasFilters = this.hasActiveFilters();
+    const titleText = hasFilters
+      ? `Top ${count} Crypto by Market Cap (Filtered)`
+      : `Top ${count} Crypto by Market Cap`;
 
     if (type === 'pie') {
       return {
