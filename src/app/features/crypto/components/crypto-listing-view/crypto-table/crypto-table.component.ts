@@ -19,7 +19,13 @@ import { TablePaginationComponent } from './table-pagination/table-pagination.co
 
 @Component({
   selector: 'app-crypto-table',
-  imports: [DecimalPipe, UpperCasePipe, FormattedPriceComponent, TableHeaderComponent, TablePaginationComponent],
+  imports: [
+    DecimalPipe,
+    UpperCasePipe,
+    FormattedPriceComponent,
+    TableHeaderComponent,
+    TablePaginationComponent,
+  ],
   templateUrl: './crypto-table.component.html',
   styleUrl: './crypto-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +33,7 @@ import { TablePaginationComponent } from './table-pagination/table-pagination.co
 export class CryptoTableComponent {
   private readonly store = inject(Store);
 
-  readonly cryptos = this.store.selectSignal(selectPaginatedCryptos );
+  readonly cryptos = this.store.selectSignal(selectPaginatedCryptos);
   readonly loading = this.store.selectSignal(selectLoading);
   readonly error = this.store.selectSignal(selectError);
   readonly sort = this.store.selectSignal(selectSort);

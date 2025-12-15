@@ -1,4 +1,4 @@
-<div class="flex items-center justify-between px-4 py-3 border-t border-white/10 bg-zinc-900/50">
+<div class="flex items-center justify-between py-3 border-t border-white/10 bg-zinc-900/50">
   <div class="flex items-center gap-2">
     <!-- First Page Button -->
     <button
@@ -10,7 +10,7 @@
     >
       <i-lucide [img]="chevronLeftIcons" class="w-4 h-4"></i-lucide>
     </button>
-    
+
     <!-- Previous Page Button -->
     <button
       type="button"
@@ -21,7 +21,7 @@
     >
       <i-lucide [img]="chevronLeftIcon" class="w-4 h-4"></i-lucide>
     </button>
-    
+
     <!-- Page Numbers -->
     <div class="flex items-center gap-1">
       @for (page of visiblePages(); track page) {
@@ -39,7 +39,7 @@
         </button>
       }
     </div>
-    
+
     <!-- Next Page Button -->
     <button
       type="button"
@@ -50,7 +50,7 @@
     >
       <i-lucide [img]="chevronRightIcon" class="w-4 h-4"></i-lucide>
     </button>
-    
+
     <!-- Last Page Button -->
     <button
       type="button"
@@ -71,12 +71,16 @@
       (change)="setPageSize($any($event.target).value)"
     >
       @for (option of pageSizeOptions; track option) {
-        <option [value]="option" [selected]="pagination().pageSize === option">
+        <option
+          [value]="option"
+          class="bg-zinc-800 text-white"
+          [selected]="pagination().pageSize === option"
+        >
           {{ option }}
         </option>
       }
     </select>
-    <span class="text-sm text-white/70">
+    <span class="text-sm text-white/70 w-25 flex justify-end">
       {{ displayRange().start }}-{{ displayRange().end }} of {{ total() }}
     </span>
   </div>
