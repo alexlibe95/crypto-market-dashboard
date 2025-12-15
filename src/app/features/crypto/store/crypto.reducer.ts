@@ -37,5 +37,15 @@ export const cryptoReducer = createReducer(
   on(CryptoActions.resetFilters, (state) => ({
     ...state,
     filters: initialCryptoState.filters,
-  }))
+  })),
+
+  on(CryptoActions.updateSort, (state, { active }) => {
+    const isSameColumn = state.sort.active === active;
+    const direction = isSameColumn && state.sort.direction === 'asc' ? 'desc' : 'asc';
+
+    return {
+      ...state,
+      sort: { active, direction },
+    };
+  })
 );

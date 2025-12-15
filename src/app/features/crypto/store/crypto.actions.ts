@@ -21,3 +21,8 @@ export const updateFilters = createAction(
 );
 
 export const resetFilters = createAction('[Crypto] Reset Filters');
+
+export const updateSort = createAction(
+  '[Crypto] Update Sort',
+  props<{ active: keyof CryptoCurrency }>()
+);

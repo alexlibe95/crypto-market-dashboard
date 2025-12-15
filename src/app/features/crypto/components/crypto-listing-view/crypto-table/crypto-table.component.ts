@@ -2,8 +2,10 @@ import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { DecimalPipe, UpperCasePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 
-import { selectError, selectFilteredCryptos, selectLoading } from '../../../store/crypto.selectors';
+import { selectError, selectLoading, selectSortedCryptos } from '../../../store/crypto.selectors';
 import { FormattedPriceComponent } from './formatted-price/formatted-price.component';
+import { CryptoCurrency } from '../../../../../core/models/crypto.model';
+import * as CryptoActions from '../../../store/crypto.actions';
 
 @Component({
   selector: 'app-crypto-table',
@@ -15,7 +17,11 @@ import { FormattedPriceComponent } from './formatted-price/formatted-price.compo
 export class CryptoTableComponent {
   private readonly store = inject(Store);
 
-  readonly cryptos = this.store.selectSignal(selectFilteredCryptos);
+  readonly cryptos = this.store.selectSignal(selectSortedCryptos);
   readonly loading = this.store.selectSignal(selectLoading);
   readonly error = this.store.selectSignal(selectError);
+
+  sortBy(column: keyof CryptoCurrency): void {
+    this.store.dispatch(CryptoActions.updateSort({ active: column }));
+  }
 }

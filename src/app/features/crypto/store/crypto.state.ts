@@ -1,5 +1,13 @@
 import { CryptoCurrency } from '../../../core/models/crypto.model';
 
+export type SortDirection = 'asc' | 'desc';
+
+
+export interface CryptoSort {
+  active: keyof CryptoCurrency | null;
+  direction: SortDirection;
+}
+
 export interface CryptoFilters {
   name: string;
   symbol: string;
@@ -14,6 +22,7 @@ export interface CryptoState {
   loading: boolean;
   error: string | null;
   filters: CryptoFilters;
+  sort: CryptoSort;
 }
 
 export const initialCryptoState: CryptoState = {
@@ -28,4 +37,8 @@ export const initialCryptoState: CryptoState = {
     minPriceChange: null,
     maxPriceChange: null,
   },
+  sort: {
+    active: null,
+    direction: 'asc'
+  }
 };

@@ -57,3 +57,27 @@ export const selectMaxMarketCap = createSelector(selectCryptos, (cryptos: Crypto
   if (!cryptos || cryptos.length === 0) return 0;
   return Math.max(...cryptos.map((crypto) => crypto.market_cap || 0));
 });
+
+export const selectSortedCryptos = createSelector(
+  selectFilteredCryptos,
+  selectCryptoState,
+  (cryptos, state) => {
+    const { active, direction } = state.sort;
+
+    if (!active) return cryptos;
+
+    return [...cryptos].sort((a, b) => {
+      const aValue = a[active];
+      const bValue = b[active];
+
+      if (aValue == null || bValue == null) return 0;
+
+      const comparison =
+        typeof aValue === 'string'
+          ? aValue.localeCompare(String(bValue))
+          : Number(aValue) - Number(bValue);
+
+      return direction === 'asc' ? comparison : -comparison;
+    });
+  }
+);

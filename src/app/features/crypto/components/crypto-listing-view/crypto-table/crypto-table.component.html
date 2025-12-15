@@ -9,16 +9,16 @@
     <table class="min-w-full w-full table-auto border-collapse">
       <thead class="sticky top-0 bg-black/70">
         <tr>
-          <th class="px-4 py-2 text-left max-w-[120px]">ID</th>
-          <th class="px-4 py-2 text-left max-w-[150px]">Name</th>
-          <th class="px-4 py-2 text-left whitespace-nowrap">Symbol</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">Price (USD)</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">Market Cap</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">Total Volume</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">High 24h</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">Low 24h</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">Price Change % (24h)</th>
-          <th class="px-4 py-2 text-right whitespace-nowrap">Circulating Supply</th>
+          <th class="px-4 py-2 text-left max-w-[120px] cursor-pointer" (click)="sortBy('id')">ID</th>
+          <th class="px-4 py-2 text-left max-w-[150px] cursor-pointer" (click)="sortBy('name')">Name</th>
+          <th class="px-4 py-2 text-left whitespace-nowrap cursor-pointer" (click)="sortBy('symbol')">Symbol</th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('current_price')">Price (USD)</th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('market_cap')">Market Cap</th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('total_volume')">Total Volume</th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('high_24h')">High 24h</th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('low_24h')">Low 24h</th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('price_change_percentage_24h')">Price Change % (24h)</th>
+          <th class="px-4 py-2 text-right whitespace-nowrap cursor-pointer" (click)="sortBy('circulating_supply')">Circulating Supply</th>
         </tr>
       </thead>
 
