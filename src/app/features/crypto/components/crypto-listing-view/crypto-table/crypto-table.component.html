@@ -44,10 +44,10 @@
               <app-formatted-price [value]="crypto.current_price" />
             </td>
             <td class="px-4 py-2 text-right whitespace-nowrap">
-              {{ crypto.market_cap ? (crypto.market_cap | number) : '-' }}
+              {{ crypto.market_cap !== null && crypto.market_cap !== undefined ? (crypto.market_cap | number) : '-' }}
             </td>
             <td class="px-4 py-2 text-right whitespace-nowrap">
-              {{ crypto.total_volume ? (crypto.total_volume | number) : '-' }}
+              {{ crypto.total_volume !== null && crypto.total_volume !== undefined ? (crypto.total_volume | number) : '-' }}
             </td>
             <td class="px-4 py-2 text-right whitespace-nowrap">
               <app-formatted-price [value]="crypto.high_24h" />
@@ -57,13 +57,13 @@
             </td>
             <td class="px-4 py-2 text-right whitespace-nowrap">
               {{
-                crypto.price_change_percentage_24h
+                crypto.price_change_percentage_24h !== null && crypto.price_change_percentage_24h !== undefined
                   ? (crypto.price_change_percentage_24h | number: '1.2-2')
                   : '-'
               }}
             </td>
             <td class="px-4 py-2 text-right whitespace-nowrap">
-              {{ crypto.circulating_supply ? (crypto.circulating_supply | number) : '-' }}
+              {{ crypto.circulating_supply !== null && crypto.circulating_supply !== undefined ? (crypto.circulating_supply | number) : '-' }}
             </td>
           </tr>
         }

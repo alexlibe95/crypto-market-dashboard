@@ -23,7 +23,7 @@ export class FormattedPriceComponent {
 
   protected readonly isLargeNumber = computed(() => {
     const val = this.value();
-    return val !== null && val !== undefined && val >= SMALL_NUMBER_THRESHOLD;
+    return val !== null && val !== undefined && (val === 0 || val >= SMALL_NUMBER_THRESHOLD);
   });
 
   protected readonly formattedSmallNumber = computed(() => {

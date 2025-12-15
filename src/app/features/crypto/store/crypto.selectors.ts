@@ -26,14 +26,20 @@ export const selectFilteredCryptos = createSelector(
         !filters.symbol || crypto.symbol.toLowerCase().includes(filters.symbol.toLowerCase());
 
       const matchesMinMarketCap =
-        filters.minMarketCap == null || crypto.market_cap >= filters.minMarketCap;
+        filters.minMarketCap == null ||
+        isNaN(filters.minMarketCap) ||
+        crypto.market_cap >= filters.minMarketCap;
       const matchesMaxMarketCap =
-        filters.maxMarketCap == null || crypto.market_cap <= filters.maxMarketCap;
+        filters.maxMarketCap == null ||
+        isNaN(filters.maxMarketCap) ||
+        crypto.market_cap <= filters.maxMarketCap;
       const matchesMinPriceChange =
         filters.minPriceChange == null ||
+        isNaN(filters.minPriceChange) ||
         crypto.price_change_percentage_24h >= filters.minPriceChange;
       const matchesMaxPriceChange =
         filters.maxPriceChange == null ||
+        isNaN(filters.maxPriceChange) ||
         crypto.price_change_percentage_24h <= filters.maxPriceChange;
 
       return (

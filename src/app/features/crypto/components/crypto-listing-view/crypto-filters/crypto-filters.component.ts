@@ -94,6 +94,10 @@ export class CryptoFiltersComponent {
     this.store.dispatch(CryptoActions.updateFilters({ filters: { maxPriceChange: value } }));
   }
 
+  private isValidNumber(value: number | null): value is number {
+    return value !== null && !isNaN(value) && isFinite(value);
+  }
+
   onMinPriceChangeInputChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     const value = target.value === '' ? null : target.valueAsNumber;
@@ -101,6 +105,10 @@ export class CryptoFiltersComponent {
 
     if (value === null) {
       this.updateMinPriceChange(null);
+      return;
+    }
+
+    if (!this.isValidNumber(value)) {
       return;
     }
 
@@ -120,6 +128,10 @@ export class CryptoFiltersComponent {
       return;
     }
 
+    if (!this.isValidNumber(value)) {
+      return;
+    }
+
     if (value < (minValue ?? -Infinity)) {
       this.updateMinPriceChange(value);
     }
@@ -129,6 +141,9 @@ export class CryptoFiltersComponent {
   onMinSliderChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     const value = target.valueAsNumber;
+    if (!this.isValidNumber(value)) {
+      return;
+    }
     const maxValue = this.maxMarketCapFilter() ?? this.maxMarketCap();
     // Ensure min doesn't exceed max
     if (value > maxValue) {
@@ -142,6 +157,9 @@ export class CryptoFiltersComponent {
   onMaxSliderChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     const value = target.valueAsNumber;
+    if (!this.isValidNumber(value)) {
+      return;
+    }
     const minValue = this.minMarketCap() ?? 0;
     // Ensure max doesn't go below min
     if (value < minValue) {
@@ -159,6 +177,10 @@ export class CryptoFiltersComponent {
 
     if (value === null) {
       this.updateMarketCap(null);
+      return;
+    }
+
+    if (!this.isValidNumber(value)) {
       return;
     }
 
@@ -185,6 +207,10 @@ export class CryptoFiltersComponent {
 
     if (value === null) {
       this.updateMaxMarketCap(null);
+      return;
+    }
+
+    if (!this.isValidNumber(value)) {
       return;
     }
 
