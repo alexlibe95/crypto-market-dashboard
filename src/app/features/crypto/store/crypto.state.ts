@@ -1,12 +1,9 @@
 import { CryptoCurrency } from '../../../core/models/crypto.model';
 
+// Types
 export type SortDirection = 'asc' | 'desc' | null;
 
-export interface CryptoSort {
-  active: keyof CryptoCurrency | null;
-  direction: SortDirection;
-}
-
+// Interfaces
 export interface CryptoFilters {
   name: string;
   symbol: string;
@@ -16,15 +13,30 @@ export interface CryptoFilters {
   maxPriceChange: number | null;
 }
 
+export interface CryptoSort {
+  active: keyof CryptoCurrency | null;
+  direction: SortDirection;
+}
+
+export interface CryptoPagination {
+  pageIndex: number;
+  pageSize: number;
+}
+
 export interface CryptoState {
+  // Data
   data: CryptoCurrency[];
   loading: boolean;
   error: string | null;
+
+  // User interactions
   filters: CryptoFilters;
   sort: CryptoSort;
   search: string;
+  pagination: CryptoPagination;
 }
 
+// Initial state
 export const initialCryptoState: CryptoState = {
   data: [],
   loading: false,
@@ -42,4 +54,8 @@ export const initialCryptoState: CryptoState = {
     direction: null,
   },
   search: '',
+  pagination: {
+    pageIndex: 0,
+    pageSize: 50,
+  },
 };

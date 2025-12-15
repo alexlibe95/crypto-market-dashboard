@@ -9,6 +9,9 @@ export const cryptoFeatureKey = 'crypto';
 export const cryptoReducer = createReducer(
   initialCryptoState,
 
+  // ============================================================================
+  // Data Loading Reducers
+  // ============================================================================
   on(CryptoActions.loadCryptos, (state) => ({
     ...state,
     loading: true,
@@ -19,6 +22,10 @@ export const cryptoReducer = createReducer(
     ...state,
     loading: false,
     data,
+    pagination: {
+      ...state.pagination,
+      pageIndex: 0, // Reset to first page when data reloads
+    },
   })),
 
   on(CryptoActions.loadCryptosFailure, (state, { error }) => ({
@@ -27,19 +34,33 @@ export const cryptoReducer = createReducer(
     error,
   })),
 
+  // ============================================================================
+  // Filter Reducers
+  // ============================================================================
   on(CryptoActions.updateFilters, (state, { filters }) => ({
     ...state,
     filters: {
       ...state.filters,
       ...filters,
     },
+    pagination: {
+      ...state.pagination,
+      pageIndex: 0, // Reset to first page when filters change
+    },
   })),
 
   on(CryptoActions.resetFilters, (state) => ({
     ...state,
     filters: initialCryptoState.filters,
+    pagination: {
+      ...state.pagination,
+      pageIndex: 0, // Reset to first page when filters are reset
+    },
   })),
 
+  // ============================================================================
+  // Sort Reducers
+  // ============================================================================
   on(CryptoActions.updateSort, (state, { active }) => {
     const isSameColumn = state.sort.active === active;
 
@@ -62,13 +83,44 @@ export const cryptoReducer = createReducer(
     };
   }),
 
+  // ============================================================================
+  // Search Reducers
+  // ============================================================================
   on(CryptoActions.updateSearch, (state, { search }) => ({
     ...state,
-    search: search,
+    search,
+    pagination: {
+      ...state.pagination,
+      pageIndex: 0, // Reset to first page when search changes
+    },
   })),
 
   on(CryptoActions.clearSearch, (state) => ({
     ...state,
     search: initialCryptoState.search,
+    pagination: {
+      ...state.pagination,
+      pageIndex: 0, // Reset to first page when search is cleared
+    },
+  })),
+
+  // ============================================================================
+  // Pagination Reducers
+  // ============================================================================
+  on(CryptoActions.setPageIndex, (state, { pageIndex }) => ({
+    ...state,
+    pagination: {
+      ...state.pagination,
+      pageIndex,
+    },
+  })),
+
+  on(CryptoActions.setPageSize, (state, { pageSize }) => ({
+    ...state,
+    pagination: {
+      ...state.pagination,
+      pageIndex: 0, // Reset to first page when size changes
+      pageSize,
+    },
   }))
 );

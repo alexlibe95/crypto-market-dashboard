@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { CryptoFilters, CryptoState } from './crypto.state';
+import { CryptoFilters, CryptoPagination, CryptoSort, CryptoState } from './crypto.state';
 import { cryptoFeatureKey } from './crypto.reducer';
 import { CryptoCurrency } from '../../../core/models/crypto.model';
 
@@ -14,6 +14,7 @@ export const selectError = createSelector(selectCryptoState, (state) => state.er
 export const selectFilters = createSelector(selectCryptoState, (state) => state.filters);
 export const selectSort = createSelector(selectCryptoState, (state) => state.sort);
 export const selectSearch = createSelector(selectCryptoState, (state) => state.search);
+export const selectPagination = createSelector(selectCryptoState, (state) => state.pagination);
 
 // Computed selectors (in dependency order)
 export const selectMaxMarketCap = createSelector(selectCryptos, (cryptos: CryptoCurrency[]) => {
@@ -21,7 +22,7 @@ export const selectMaxMarketCap = createSelector(selectCryptos, (cryptos: Crypto
   return Math.max(...cryptos.map((crypto) => crypto.market_cap || 0));
 });
 
-export const selectFilteredCryptos = createSelector(
+const _selectFilteredCryptos = createSelector(
   selectCryptos,
   selectFilters,
   (cryptos: CryptoCurrency[], filters: CryptoFilters) =>
@@ -63,15 +64,15 @@ export const selectFilteredCryptos = createSelector(
     })
 );
 
-export const selectSearchedCryptos = createSelector(
-  selectFilteredCryptos,
+const _selectSearchedCryptos = createSelector(
+  _selectFilteredCryptos,
   selectSearch,
-  (cryptos, search) => {
+  (cryptos: CryptoCurrency[], search: string) => {
+    if (!search) return cryptos;
+
     const trimmedSearch = search.trim();
     if (!trimmedSearch) return cryptos;
-
     const term = trimmedSearch.toLowerCase();
-
     return cryptos.filter(
       (crypto) =>
         crypto.name.toLowerCase().includes(term) ||
@@ -81,10 +82,10 @@ export const selectSearchedCryptos = createSelector(
   }
 );
 
-export const selectSortedCryptos = createSelector(
-  selectSearchedCryptos,
+const _selectSortedCryptos = createSelector(
+  _selectSearchedCryptos,
   selectSort,
-  (cryptos, sort) => {
+  (cryptos: CryptoCurrency[], sort: CryptoSort) => {
     const { active, direction } = sort;
 
     if (!active || direction === null) return cryptos;
@@ -103,4 +104,19 @@ export const selectSortedCryptos = createSelector(
       return direction === 'asc' ? comparison : -comparison;
     });
   }
+);
+
+export const selectPaginatedCryptos = createSelector(
+  _selectSortedCryptos,
+  selectPagination,
+  (cryptos: CryptoCurrency[], pagination: CryptoPagination) => {
+    const start = pagination.pageIndex * pagination.pageSize;
+    const end = start + pagination.pageSize;
+    return cryptos.slice(start, end) as CryptoCurrency[];
+  }
+);
+
+export const selectTotalResults = createSelector(
+  _selectSortedCryptos,
+  (cryptos: CryptoCurrency[]) => cryptos.length
 );

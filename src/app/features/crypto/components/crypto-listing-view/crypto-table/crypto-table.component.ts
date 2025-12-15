@@ -5,18 +5,27 @@ import { Store } from '@ngrx/store';
 import {
   selectError,
   selectLoading,
-  selectSortedCryptos,
   selectSort,
+  selectPaginatedCryptos,
+  selectPagination,
+  selectTotalResults,
 } from '../../../store/crypto.selectors';
 import { FormattedPriceComponent } from './formatted-price/formatted-price.component';
 import { TableHeaderComponent } from './table-header/table-header.component';
 import { CRYPTO_TABLE_COLUMNS } from '../../../../../core/constants/crypto-table.constants';
 import { CryptoCurrency } from '../../../../../core/models/crypto.model';
 import * as CryptoActions from '../../../store/crypto.actions';
+import { TablePaginationComponent } from './table-pagination/table-pagination.component';
 
 @Component({
   selector: 'app-crypto-table',
-  imports: [DecimalPipe, UpperCasePipe, FormattedPriceComponent, TableHeaderComponent],
+  imports: [
+    DecimalPipe,
+    UpperCasePipe,
+    FormattedPriceComponent,
+    TableHeaderComponent,
+    TablePaginationComponent,
+  ],
   templateUrl: './crypto-table.component.html',
   styleUrl: './crypto-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,10 +33,12 @@ import * as CryptoActions from '../../../store/crypto.actions';
 export class CryptoTableComponent {
   private readonly store = inject(Store);
 
-  readonly cryptos = this.store.selectSignal(selectSortedCryptos);
+  readonly cryptos = this.store.selectSignal(selectPaginatedCryptos);
   readonly loading = this.store.selectSignal(selectLoading);
   readonly error = this.store.selectSignal(selectError);
   readonly sort = this.store.selectSignal(selectSort);
+  readonly pagination = this.store.selectSignal(selectPagination);
+  readonly totalResults = this.store.selectSignal(selectTotalResults);
 
   readonly columns = CRYPTO_TABLE_COLUMNS;
 
