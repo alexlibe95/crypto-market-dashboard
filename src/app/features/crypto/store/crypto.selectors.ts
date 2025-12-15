@@ -4,26 +4,36 @@ import { CryptoFilters, CryptoState } from './crypto.state';
 import { cryptoFeatureKey } from './crypto.reducer';
 import { CryptoCurrency } from '../../../core/models/crypto.model';
 
+// Base selector
 export const selectCryptoState = createFeatureSelector<CryptoState>(cryptoFeatureKey);
 
+// Simple state property selectors
 export const selectCryptos = createSelector(selectCryptoState, (state) => state.data);
-
 export const selectLoading = createSelector(selectCryptoState, (state) => state.loading);
-
 export const selectError = createSelector(selectCryptoState, (state) => state.error);
-
 export const selectFilters = createSelector(selectCryptoState, (state) => state.filters);
+export const selectSort = createSelector(selectCryptoState, (state) => state.sort);
+export const selectSearch = createSelector(selectCryptoState, (state) => state.search);
+
+// Computed selectors (in dependency order)
+export const selectMaxMarketCap = createSelector(selectCryptos, (cryptos: CryptoCurrency[]) => {
+  if (!cryptos || cryptos.length === 0) return 0;
+  return Math.max(...cryptos.map((crypto) => crypto.market_cap || 0));
+});
 
 export const selectFilteredCryptos = createSelector(
   selectCryptos,
   selectFilters,
   (cryptos: CryptoCurrency[], filters: CryptoFilters) =>
     cryptos.filter((crypto) => {
+      const nameFilter = filters.name.trim();
+      const symbolFilter = filters.symbol.trim();
+
       const matchesName =
-        !filters.name || crypto.name.toLowerCase().includes(filters.name.toLowerCase());
+        !nameFilter || crypto.name.toLowerCase().includes(nameFilter.toLowerCase());
 
       const matchesSymbol =
-        !filters.symbol || crypto.symbol.toLowerCase().includes(filters.symbol.toLowerCase());
+        !symbolFilter || crypto.symbol.toLowerCase().includes(symbolFilter.toLowerCase());
 
       const matchesMinMarketCap =
         filters.minMarketCap == null ||
@@ -53,18 +63,29 @@ export const selectFilteredCryptos = createSelector(
     })
 );
 
-export const selectMaxMarketCap = createSelector(selectCryptos, (cryptos: CryptoCurrency[]) => {
-  if (!cryptos || cryptos.length === 0) return 0;
-  return Math.max(...cryptos.map((crypto) => crypto.market_cap || 0));
-});
+export const selectSearchedCryptos = createSelector(
+  selectFilteredCryptos,
+  selectSearch,
+  (cryptos, search) => {
+    const trimmedSearch = search.trim();
+    if (!trimmedSearch) return cryptos;
 
-export const selectSort = createSelector(selectCryptoState, (state) => state.sort);
+    const term = trimmedSearch.toLowerCase();
+
+    return cryptos.filter(
+      (crypto) =>
+        crypto.name.toLowerCase().includes(term) ||
+        crypto.symbol.toLowerCase().includes(term) ||
+        crypto.id.toLowerCase().includes(term)
+    );
+  }
+);
 
 export const selectSortedCryptos = createSelector(
-  selectFilteredCryptos,
-  selectCryptoState,
-  (cryptos, state) => {
-    const { active, direction } = state.sort;
+  selectSearchedCryptos,
+  selectSort,
+  (cryptos, sort) => {
+    const { active, direction } = sort;
 
     if (!active || direction === null) return cryptos;
 

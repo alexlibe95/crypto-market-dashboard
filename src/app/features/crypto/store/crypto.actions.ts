@@ -26,3 +26,7 @@ export const updateSort = createAction(
   '[Crypto] Update Sort',
   props<{ active: keyof CryptoCurrency }>()
 );
+
+export const updateSearch = createAction('[Crypto] Update Search', props<{ search: string }>());
+
+export const clearSearch = createAction('[Crypto] Clear Search');
