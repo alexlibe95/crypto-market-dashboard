@@ -2,11 +2,12 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { Store } from '@ngrx/store';
 
 import * as CryptoActions from './features/crypto/store/crypto.actions';
-import { CryptoListingViewComponent } from './features/crypto/components/crypto-listing-view/crypto-listing-view.component';
+import { CryptoControlsComponent } from './features/crypto/components/crypto-controls/crypto-controls.component';
+import { CryptoTabViewComponent } from './features/crypto/components/crypto-tab-view/crypto-tab-view.component';
 
 @Component({
   selector: 'app-root',
-  imports: [CryptoListingViewComponent],
+  imports: [CryptoControlsComponent, CryptoTabViewComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
