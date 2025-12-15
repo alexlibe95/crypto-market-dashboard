@@ -120,7 +120,7 @@
               />
             </div>
           </div>
-          <div class="relative h-6">
+          <div class="relative h-6 select-none">
             <div class="absolute top-[5px] left-0 right-0 h-1.5 bg-white/10 rounded-sm"></div>
             <div
               class="absolute top-[5px] h-1.5 bg-blue-500/50 rounded-sm pointer-events-none transition-all duration-100"
@@ -134,8 +134,6 @@
               [max]="maxMarketCap()"
               [value]="minSliderValue()"
               (input)="onMinSliderChange($event)"
-              (mousedown)="$event.stopPropagation()"
-              (touchstart)="$event.stopPropagation()"
               class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider slider-min top-1 z-10"
             />
             <input
@@ -145,8 +143,6 @@
               [max]="maxMarketCap()"
               [value]="maxSliderValue()"
               (input)="onMaxSliderChange($event)"
-              (mousedown)="$event.stopPropagation()"
-              (touchstart)="$event.stopPropagation()"
               class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider slider-max top-1 z-20"
             />
           </div>

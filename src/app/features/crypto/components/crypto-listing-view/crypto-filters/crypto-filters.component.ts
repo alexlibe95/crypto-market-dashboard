@@ -173,7 +173,8 @@ export class CryptoFiltersComponent {
   onMinInputChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     const value = target.value === '' ? null : target.valueAsNumber;
-    const maxValue = this.maxMarketCapFilter() ?? this.maxMarketCap();
+    const currentMaxFilter = this.maxMarketCapFilter();
+    const absoluteMax = this.maxMarketCap();
 
     if (value === null) {
       this.updateMarketCap(null);
@@ -189,21 +190,22 @@ export class CryptoFiltersComponent {
       return;
     }
 
-    if (value > this.maxMarketCap()) {
-      this.updateMarketCap(this.maxMarketCap());
-      return;
-    }
+    // Clamp to absolute max
+    const clampedToMax = Math.min(value, absoluteMax);
+    const finalValue = clampedToMax;
 
-    if (value > maxValue) {
-      this.updateMaxMarketCap(value);
+    // If final value exceeds current max filter, adjust max filter up to maintain valid state
+    if (currentMaxFilter !== null && finalValue > currentMaxFilter) {
+      this.updateMaxMarketCap(finalValue);
     }
-    this.updateMarketCap(value);
+    this.updateMarketCap(finalValue);
   }
 
   onMaxInputChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     const value = target.value === '' ? null : target.valueAsNumber;
-    const minValue = this.minMarketCap() ?? 0;
+    const minValue = this.minMarketCap();
+    const absoluteMax = this.maxMarketCap();
 
     if (value === null) {
       this.updateMaxMarketCap(null);
@@ -214,20 +216,17 @@ export class CryptoFiltersComponent {
       return;
     }
 
-    if (value < 0) {
-      this.updateMaxMarketCap(0);
-      return;
-    }
+    // Clamp to 0 minimum
+    const clampedToZero = Math.max(value, 0);
+    // Clamp to absolute max
+    const clampedToMax = Math.min(clampedToZero, absoluteMax);
+    const finalValue = clampedToMax;
 
-    if (value > this.maxMarketCap()) {
-      this.updateMaxMarketCap(this.maxMarketCap());
-      return;
+    // If final value is less than current min, adjust min down
+    if (minValue !== null && finalValue < minValue) {
+      this.updateMarketCap(finalValue);
     }
-
-    if (value < minValue) {
-      this.updateMarketCap(value);
-    }
-    this.updateMaxMarketCap(value);
+    this.updateMaxMarketCap(finalValue);
   }
 
   reset(): void {
