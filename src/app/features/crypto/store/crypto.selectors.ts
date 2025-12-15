@@ -67,9 +67,10 @@ export const selectSearchedCryptos = createSelector(
   selectFilteredCryptos,
   selectSearch,
   (cryptos, search) => {
-    if (!search) return cryptos;
+    const trimmedSearch = search.trim();
+    if (!trimmedSearch) return cryptos;
 
-    const term = search.toLowerCase();
+    const term = trimmedSearch.toLowerCase();
 
     return cryptos.filter(
       (crypto) =>
