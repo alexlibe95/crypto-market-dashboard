@@ -22,6 +22,10 @@ export const cryptoReducer = createReducer(
     ...state,
     loading: false,
     data,
+    pagination: {
+      ...state.pagination,
+      pageIndex: 0, // Reset to first page when data reloads
+    },
   })),
 
   on(CryptoActions.loadCryptosFailure, (state, { error }) => ({
