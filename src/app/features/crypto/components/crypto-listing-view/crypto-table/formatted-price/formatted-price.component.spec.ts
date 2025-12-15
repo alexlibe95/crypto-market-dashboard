@@ -1,15 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideStore } from '@ngrx/store';
+import { DecimalPipe } from '@angular/common';
 
-import { CryptoListingViewComponent } from './crypto-listing-view.component';
-import { CryptoTableComponent } from './crypto-table/crypto-table.component';
-import { CryptoFiltersComponent } from './crypto-filters/crypto-filters.component';
+import { FormattedPriceComponent } from './formatted-price.component';
 
-describe('CryptoListingViewComponent', () => {
+describe('FormattedPriceComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CryptoListingViewComponent, CryptoFiltersComponent, CryptoTableComponent],
+      imports: [FormattedPriceComponent, DecimalPipe],
       providers: [
         provideZonelessChangeDetection(),
         provideBrowserGlobalErrorListeners(),
@@ -19,7 +18,7 @@ describe('CryptoListingViewComponent', () => {
   });
 
   it('should create the component', () => {
-    const fixture = TestBed.createComponent(CryptoListingViewComponent);
+    const fixture = TestBed.createComponent(FormattedPriceComponent);
     const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });

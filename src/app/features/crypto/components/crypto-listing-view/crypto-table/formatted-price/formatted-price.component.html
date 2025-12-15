@@ -1,0 +1,12 @@
+@if (!hasValue()) {
+  <span>-</span>
+} @else if (isLargeNumber()) {
+  <span>{{ displayValue() | number: '1.2-2' }}</span>
+} @else {
+  @let formatted = formattedSmallNumber();
+  <span class="inline-flex items-baseline gap-0.5">
+    <span>0.0</span>
+    <sup class="text-xs opacity-90">{{ formatted.zeroCount }}</sup>
+    <span>{{ formatted.significant }}</span>
+  </span>
+}

@@ -41,21 +41,7 @@
             </td>
             <td class="px-4 py-2 whitespace-nowrap">{{ crypto.symbol | uppercase }}</td>
             <td class="px-4 py-2 text-right whitespace-nowrap">
-              @if (!crypto.current_price) {
-                -
-              } @else if (crypto.current_price >= 0.01) {
-                {{ crypto.current_price | number: '1.2-2' }}
-              } @else {
-                @let formatted =
-                  formatSmallNumber(crypto.current_price) ?? { zeroCount: 0, significant: '-' };
-                <span>
-                  0.0
-                  <sup class="text-xs opacity-90">
-                    {{ formatted.zeroCount }}
-                  </sup>
-                  {{ formatted.significant }}
-                </span>
-              }
+              <app-formatted-price [value]="crypto.current_price" />
             </td>
             <td class="px-4 py-2 text-right whitespace-nowrap">
               {{ crypto.market_cap ? (crypto.market_cap | number) : '-' }}
@@ -64,38 +50,10 @@
               {{ crypto.total_volume ? (crypto.total_volume | number) : '-' }}
             </td>
             <td class="px-4 py-2 text-right whitespace-nowrap">
-              @if (!crypto.high_24h) {
-                -
-              } @else if (crypto.high_24h >= 0.01) {
-                {{ crypto.high_24h | number: '1.2-2' }}
-              } @else {
-                @let formatted =
-                  formatSmallNumber(crypto.high_24h) ?? { zeroCount: 0, significant: '-' };
-                <span>
-                  0.0
-                  <sup class="text-xs opacity-90">
-                    {{ formatted.zeroCount }}
-                  </sup>
-                  {{ formatted.significant }}
-                </span>
-              }
+              <app-formatted-price [value]="crypto.high_24h" />
             </td>
             <td class="px-4 py-2 text-right whitespace-nowrap">
-              @if (!crypto.low_24h) {
-                -
-              } @else if (crypto.low_24h >= 0.01) {
-                {{ crypto.low_24h | number: '1.2-2' }}
-              } @else {
-                @let formatted =
-                  formatSmallNumber(crypto.low_24h) ?? { zeroCount: 0, significant: '-' };
-                <span>
-                  0.0
-                  <sup class="text-xs opacity-90">
-                    {{ formatted.zeroCount }}
-                  </sup>
-                  {{ formatted.significant }}
-                </span>
-              }
+              <app-formatted-price [value]="crypto.low_24h" />
             </td>
             <td class="px-4 py-2 text-right whitespace-nowrap">
               {{

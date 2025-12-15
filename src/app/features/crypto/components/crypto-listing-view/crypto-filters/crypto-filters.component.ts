@@ -17,21 +17,15 @@ export class CryptoFiltersComponent {
   readonly minMarketCap = signal<number | null>(null);
 
   updateName(value: string) {
-    this.store.dispatch(
-      CryptoActions.updateFilters({ filters: { name: value } })
-    );
+    this.store.dispatch(CryptoActions.updateFilters({ filters: { name: value } }));
   }
-  
+
   updateSymbol(value: string) {
-    this.store.dispatch(
-      CryptoActions.updateFilters({ filters: { symbol: value } })
-    );
+    this.store.dispatch(CryptoActions.updateFilters({ filters: { symbol: value } }));
   }
-  
+
   updateMarketCap(value: number | null) {
-    this.store.dispatch(
-      CryptoActions.updateFilters({ filters: { minMarketCap: value } })
-    );
+    this.store.dispatch(CryptoActions.updateFilters({ filters: { minMarketCap: value } }));
   }
 
   reset(): void {
