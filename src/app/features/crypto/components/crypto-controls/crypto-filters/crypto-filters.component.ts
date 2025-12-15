@@ -5,8 +5,10 @@ import {
   signal,
   computed,
   HostListener,
+  PLATFORM_ID,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { isPlatformBrowser } from '@angular/common';
 import { LucideAngularModule, ListFilterIcon, RotateCcwIcon, XIcon } from 'lucide-angular';
 
 import * as CryptoActions from '../../../store/crypto.actions';
@@ -21,8 +23,23 @@ import { selectMaxMarketCap, selectFilters } from '../../../store/crypto.selecto
 })
 export class CryptoFiltersComponent {
   private readonly store = inject(Store);
+  private readonly platformId = inject(PLATFORM_ID);
 
   readonly isOpen = signal(false);
+  readonly isMobile = signal<boolean>(false);
+
+  constructor() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.updateMobileState();
+      window.addEventListener('resize', () => this.updateMobileState());
+    }
+  }
+
+  private updateMobileState(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.isMobile.set(window.innerWidth < 640); // sm breakpoint
+    }
+  }
   readonly name = signal('');
   readonly symbol = signal('');
   readonly minMarketCap = signal<number | null>(null);
