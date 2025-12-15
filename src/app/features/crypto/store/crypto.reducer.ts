@@ -30,12 +30,12 @@ export const cryptoReducer = createReducer(
     ...state,
     filters: {
       ...state.filters,
-      ...filters
-    }
+      ...filters,
+    },
   })),
-  
+
   on(CryptoActions.resetFilters, (state) => ({
     ...state,
-    filters: initialCryptoState.filters
+    filters: initialCryptoState.filters,
   }))
 );

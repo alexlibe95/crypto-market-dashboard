@@ -2,30 +2,24 @@
   <input
     type="text"
     placeholder="Filter by name"
-    class="input"
-    (input)="name.set($any($event.target).value)"
+    class="border border-white/30 rounded-md p-2 text-white placeholder-white/40"
+    (input)="updateName($any($event.target).value)"
   />
 
   <input
     type="text"
     placeholder="Filter by symbol"
-    class="input"
-    (input)="symbol.set($any($event.target).value)"
+    class="border border-white/30 rounded-md p-2 text-white placeholder-white/40"
+    (input)="updateSymbol($any($event.target).value)"
   />
 
   <input
     type="number"
     placeholder="Min market cap"
-    class="input"
-    (input)="minMarketCap.set($any($event.target).valueAsNumber || null)"
+    class="border border-white/30 rounded-md p-2 text-white placeholder-white/40"
+    (input)="updateMarketCap($any($event.target).valueAsNumber || null)"
   />
   <div class="flex gap-2">
-    <button
-      class="bg-blue-700 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-blue-600"
-      (click)="applyFilters()"
-    >
-      Apply
-    </button>
     <button
       class="bg-gray-700 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-gray-600"
       (click)="reset()"

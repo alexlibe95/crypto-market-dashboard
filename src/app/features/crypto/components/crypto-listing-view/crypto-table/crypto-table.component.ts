@@ -3,6 +3,7 @@ import { DecimalPipe, UpperCasePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 
 import { selectError, selectFilteredCryptos, selectLoading } from '../../../store/crypto.selectors';
+import { formatSmallNumber } from '../../../../../core/utils/format-small-number';
 
 @Component({
   selector: 'app-crypto-table',
@@ -12,7 +13,9 @@ import { selectError, selectFilteredCryptos, selectLoading } from '../../../stor
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CryptoTableComponent {
-  private store = inject(Store);
+  private readonly store = inject(Store);
+
+  readonly formatSmallNumber = formatSmallNumber;
 
   readonly cryptos = this.store.selectSignal(selectFilteredCryptos);
   readonly loading = this.store.selectSignal(selectLoading);

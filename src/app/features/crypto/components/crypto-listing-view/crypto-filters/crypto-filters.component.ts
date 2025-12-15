@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
+
 import * as CryptoActions from '../../../store/crypto.actions';
 
 @Component({
@@ -9,21 +10,27 @@ import * as CryptoActions from '../../../store/crypto.actions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CryptoFiltersComponent {
-  private store = inject(Store);
+  private readonly store = inject(Store);
 
   readonly name = signal('');
   readonly symbol = signal('');
   readonly minMarketCap = signal<number | null>(null);
 
-  applyFilters(): void {
+  updateName(value: string) {
     this.store.dispatch(
-      CryptoActions.updateFilters({
-        filters: {
-          name: this.name(),
-          symbol: this.symbol(),
-          minMarketCap: this.minMarketCap(),
-        },
-      })
+      CryptoActions.updateFilters({ filters: { name: value } })
+    );
+  }
+  
+  updateSymbol(value: string) {
+    this.store.dispatch(
+      CryptoActions.updateFilters({ filters: { symbol: value } })
+    );
+  }
+  
+  updateMarketCap(value: number | null) {
+    this.store.dispatch(
+      CryptoActions.updateFilters({ filters: { minMarketCap: value } })
     );
   }
 
