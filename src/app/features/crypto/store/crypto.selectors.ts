@@ -60,11 +60,30 @@ export const selectMaxMarketCap = createSelector(selectCryptos, (cryptos: Crypto
 
 export const selectSort = createSelector(selectCryptoState, (state) => state.sort);
 
-export const selectSortedCryptos = createSelector(
+export const selectSearch = createSelector(selectCryptoState, (state) => state.search);
+
+export const selectSearchedCryptos = createSelector(
   selectFilteredCryptos,
-  selectCryptoState,
-  (cryptos, state) => {
-    const { active, direction } = state.sort;
+  selectSearch,
+  (cryptos, search) => {
+    if (!search) return cryptos;
+
+    const term = search.toLowerCase();
+
+    return cryptos.filter(
+      (crypto) =>
+        crypto.name.toLowerCase().includes(term) ||
+        crypto.symbol.toLowerCase().includes(term) ||
+        crypto.id.toLowerCase().includes(term)
+    );
+  }
+);
+
+export const selectSortedCryptos = createSelector(
+  selectSearchedCryptos,
+  selectSort,
+  (cryptos, sort) => {
+    const { active, direction } = sort;
 
     if (!active || direction === null) return cryptos;
 
@@ -83,3 +102,5 @@ export const selectSortedCryptos = createSelector(
     });
   }
 );
+
+export const selectVisibleCryptos = createSelector(selectSortedCryptos, (cryptos) => cryptos);

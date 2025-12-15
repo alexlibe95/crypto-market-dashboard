@@ -60,5 +60,15 @@ export const cryptoReducer = createReducer(
       ...state,
       sort: { active: newActive, direction },
     };
-  })
+  }),
+
+  on(CryptoActions.updateSearch, (state, { search }) => ({
+    ...state,
+    search: search,
+  })),
+
+  on(CryptoActions.clearSearch, (state) => ({
+    ...state,
+    search: initialCryptoState.search,
+  }))
 );

@@ -22,6 +22,7 @@ export interface CryptoState {
   error: string | null;
   filters: CryptoFilters;
   sort: CryptoSort;
+  search: string;
 }
 
 export const initialCryptoState: CryptoState = {
@@ -40,4 +41,5 @@ export const initialCryptoState: CryptoState = {
     active: null,
     direction: null,
   },
+  search: '',
 };
