@@ -31,7 +31,7 @@ A modern, responsive dashboard for exploring cryptocurrency market data. View re
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/alexlibe95/crypto-market-dashboard.git
 cd crypto-market-dashboard
 ```
 
