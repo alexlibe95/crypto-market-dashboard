@@ -64,23 +64,23 @@ export class TablePaginationComponent {
   readonly displayRange = computed(() => {
     const { pageIndex, pageSize } = this.pagination();
     const total = this.total();
-    
+
     if (total === 0) {
       return { start: 0, end: 0 };
     }
-    
+
     // Ensure pageIndex is within valid bounds
     const maxPageIndex = Math.max(0, Math.ceil(total / pageSize) - 1);
     const validPageIndex = Math.min(pageIndex, maxPageIndex);
-    
+
     const start = validPageIndex * pageSize + 1;
     const end = Math.min((validPageIndex + 1) * pageSize, total);
-    
+
     // Additional safety check: ensure start doesn't exceed end
     if (start > end) {
       return { start: 0, end: 0 };
     }
-    
+
     return { start, end };
   });
 
