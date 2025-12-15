@@ -84,23 +84,79 @@ export class CryptoFiltersComponent {
   onMinSliderChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     const value = target.valueAsNumber;
-    const maxValue = this.maxMarketCapFilter();
+    const maxValue = this.maxMarketCapFilter() ?? this.maxMarketCap();
     // Ensure min doesn't exceed max
-    if (maxValue !== null && value > maxValue) {
+    if (value > maxValue) {
       this.updateMaxMarketCap(value);
+      this.updateMarketCap(maxValue);
+    } else {
+      this.updateMarketCap(value);
     }
-    this.updateMarketCap(value || null);
   }
 
   onMaxSliderChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     const value = target.valueAsNumber;
-    const minValue = this.minMarketCap();
+    const minValue = this.minMarketCap() ?? 0;
     // Ensure max doesn't go below min
-    if (minValue !== null && value < minValue) {
+    if (value < minValue) {
+      this.updateMarketCap(value);
+      this.updateMaxMarketCap(minValue);
+    } else {
+      this.updateMaxMarketCap(value);
+    }
+  }
+
+  onMinInputChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const value = target.value === '' ? null : target.valueAsNumber;
+    const maxValue = this.maxMarketCapFilter() ?? this.maxMarketCap();
+    
+    if (value === null) {
+      this.updateMarketCap(null);
+      return;
+    }
+
+    if (value < 0) {
+      this.updateMarketCap(0);
+      return;
+    }
+
+    if (value > this.maxMarketCap()) {
+      this.updateMarketCap(this.maxMarketCap());
+      return;
+    }
+
+    if (value > maxValue) {
+      this.updateMaxMarketCap(value);
+    }
+    this.updateMarketCap(value);
+  }
+
+  onMaxInputChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const value = target.value === '' ? null : target.valueAsNumber;
+    const minValue = this.minMarketCap() ?? 0;
+    
+    if (value === null) {
+      this.updateMaxMarketCap(null);
+      return;
+    }
+
+    if (value < 0) {
+      this.updateMaxMarketCap(0);
+      return;
+    }
+
+    if (value > this.maxMarketCap()) {
+      this.updateMaxMarketCap(this.maxMarketCap());
+      return;
+    }
+
+    if (value < minValue) {
       this.updateMarketCap(value);
     }
-    this.updateMaxMarketCap(value || null);
+    this.updateMaxMarketCap(value);
   }
 
   reset(): void {

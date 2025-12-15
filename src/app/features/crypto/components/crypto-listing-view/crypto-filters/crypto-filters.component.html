@@ -43,19 +43,41 @@
         </div>
 
         <div>
-          <div class="flex flex-col justify-between mb-2">
-            <label class="block text-sm font-medium text-white/90" for="filter-market-cap">
-              Market Cap Range
-            </label>
-            <div class="flex gap-2 text-sm text-white/70">
-              <span>Min: {{ minDisplayValue() | number }}</span>
-              <span>Max: {{ maxDisplayValue() | number }}</span>
+          <label class="block text-sm font-medium text-white/90 mb-2" for="filter-market-cap">
+            Market Cap Range
+          </label>
+          <div class="flex gap-2 mb-3">
+            <div class="flex-1">
+              <label class="block text-xs text-white/70 mb-1" for="min-market-cap-input">Min</label>
+              <input
+                id="min-market-cap-input"
+                type="number"
+                min="0"
+                [max]="maxMarketCap()"
+                [value]="minMarketCap() ?? ''"
+                (input)="onMinInputChange($event)"
+                placeholder="0"
+                class="w-full px-2 py-1.5 bg-white/5 border border-white/20 rounded-md text-white text-sm placeholder-white/40 focus:outline-none focus:border-white/40 focus:bg-white/8 transition-colors"
+              />
+            </div>
+            <div class="flex-1">
+              <label class="block text-xs text-white/70 mb-1" for="max-market-cap-input">Max</label>
+              <input
+                id="max-market-cap-input"
+                type="number"
+                min="0"
+                [max]="maxMarketCap()"
+                [value]="maxMarketCapFilter() ?? ''"
+                (input)="onMaxInputChange($event)"
+                placeholder="MAX"
+                class="w-full px-2 py-1.5 bg-white/5 border border-white/20 rounded-md text-white text-sm placeholder-white/40 focus:outline-none focus:border-white/40 focus:bg-white/8 transition-colors"
+              />
             </div>
           </div>
-          <div class="relative h-8">
-            <div class="slider-track"></div>
+          <div class="relative h-6">
+            <div class="absolute top-[5px] left-0 right-0 h-1.5 bg-white/10 rounded-sm"></div>
             <div
-              class="slider-range"
+              class="absolute top-[5px] h-1.5 bg-blue-500/50 rounded-sm pointer-events-none transition-all duration-100"
               [style.left.%]="rangePercentage().min"
               [style.width.%]="rangePercentage().max - rangePercentage().min"
             ></div>
@@ -66,7 +88,9 @@
               [max]="maxMarketCap()"
               [value]="minSliderValue()"
               (input)="onMinSliderChange($event)"
-              class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider slider-min z-10 top-0"
+              (mousedown)="$event.stopPropagation()"
+              (touchstart)="$event.stopPropagation()"
+              class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider slider-min top-1 z-10"
             />
             <input
               id="filter-market-cap-max"
@@ -75,13 +99,14 @@
               [max]="maxMarketCap()"
               [value]="maxSliderValue()"
               (input)="onMaxSliderChange($event)"
-              class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider slider-max z-20 top-0"
+              (mousedown)="$event.stopPropagation()"
+              (touchstart)="$event.stopPropagation()"
+              class="absolute w-full h-2 bg-transparent appearance-none cursor-pointer slider slider-max top-1 z-20"
             />
           </div>
           <div class="flex justify-between text-xs text-white/50 mt-1">
             <span>0</span>
-            <!-- <span>{{ maxMarketCap() | number }}</span> -->
-             <span>MAX (BTC)</span>
+            <span>MAX (BTC)</span>
           </div>
         </div>
       </div>
