@@ -10,7 +10,7 @@ import { Store } from '@ngrx/store';
 import { LucideAngularModule, ListFilterIcon, RotateCcwIcon, XIcon } from 'lucide-angular';
 
 import * as CryptoActions from '../../../store/crypto.actions';
-import { selectMaxMarketCap } from '../../../store/crypto.selectors';
+import { selectMaxMarketCap, selectFilters } from '../../../store/crypto.selectors';
 
 @Component({
   selector: 'app-crypto-filters',
@@ -31,6 +31,7 @@ export class CryptoFiltersComponent {
   readonly maxPriceChange = signal<number | null>(null);
 
   readonly maxMarketCap = this.store.selectSignal(selectMaxMarketCap);
+  readonly filters = this.store.selectSignal(selectFilters);
   readonly minSliderValue = computed(() => this.minMarketCap() ?? 0);
   readonly maxSliderValue = computed(() => {
     const max = this.maxMarketCapFilter();
@@ -50,6 +51,18 @@ export class CryptoFiltersComponent {
     const minPercent = (this.minSliderValue() / max) * 100;
     const maxPercent = (this.maxSliderValue() / max) * 100;
     return { min: minPercent, max: maxPercent };
+  });
+
+  readonly hasActiveFilters = computed(() => {
+    const currentFilters = this.filters();
+    return (
+      currentFilters.name.trim() !== '' ||
+      currentFilters.symbol.trim() !== '' ||
+      currentFilters.minMarketCap !== null ||
+      currentFilters.maxMarketCap !== null ||
+      currentFilters.minPriceChange !== null ||
+      currentFilters.maxPriceChange !== null
+    );
   });
 
   readonly listFilterIcon = ListFilterIcon;
