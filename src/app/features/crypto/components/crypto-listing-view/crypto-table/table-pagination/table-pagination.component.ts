@@ -63,8 +63,14 @@ export class TablePaginationComponent {
 
   readonly displayRange = computed(() => {
     const { pageIndex, pageSize } = this.pagination();
+    const total = this.total();
+
+    if (total === 0) {
+      return { start: 0, end: 0 };
+    }
+
     const start = pageIndex * pageSize + 1;
-    const end = Math.min((pageIndex + 1) * pageSize, this.total());
+    const end = Math.min((pageIndex + 1) * pageSize, total);
     return { start, end };
   });
 

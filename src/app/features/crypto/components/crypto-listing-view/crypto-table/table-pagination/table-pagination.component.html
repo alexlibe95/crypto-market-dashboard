@@ -81,7 +81,11 @@
       }
     </select>
     <span class="text-sm text-white/70 w-25 flex justify-end">
-      {{ displayRange().start }}-{{ displayRange().end }} of {{ total() }}
+      @if (total() === 0) {
+        0 of 0
+      } @else {
+        {{ displayRange().start }}-{{ displayRange().end }} of {{ total() }}
+      }
     </span>
   </div>
 </div>
