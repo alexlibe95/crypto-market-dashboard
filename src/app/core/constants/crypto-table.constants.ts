@@ -1,4 +1,4 @@
-import { CryptoCurrency } from '../../../../../core/models/crypto.model';
+import { CryptoCurrency } from '../models/crypto.model';
 
 export interface TableColumnConfig {
   key: keyof CryptoCurrency;

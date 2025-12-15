@@ -10,7 +10,7 @@ import {
 } from '../../../store/crypto.selectors';
 import { FormattedPriceComponent } from './formatted-price/formatted-price.component';
 import { TableHeaderComponent } from './table-header/table-header.component';
-import { CRYPTO_TABLE_COLUMNS } from './crypto-table.constants';
+import { CRYPTO_TABLE_COLUMNS } from '../../../../../core/constants/crypto-table.constants';
 import { CryptoCurrency } from '../../../../../core/models/crypto.model';
 import * as CryptoActions from '../../../store/crypto.actions';
 
