@@ -5,6 +5,8 @@ export interface CryptoFilters {
   symbol: string;
   minMarketCap: number | null;
   maxMarketCap: number | null;
+  minPriceChange: number | null;
+  maxPriceChange: number | null;
 }
 
 export interface CryptoState {
@@ -23,5 +25,7 @@ export const initialCryptoState: CryptoState = {
     symbol: '',
     minMarketCap: null,
     maxMarketCap: null,
+    minPriceChange: null,
+    maxPriceChange: null,
   },
 };

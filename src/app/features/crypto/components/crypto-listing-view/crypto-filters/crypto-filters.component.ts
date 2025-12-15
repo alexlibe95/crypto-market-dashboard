@@ -6,9 +6,8 @@ import {
   computed,
   HostListener,
 } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { LucideAngularModule, ListFilterIcon } from 'lucide-angular';
+import { LucideAngularModule, ListFilterIcon, RotateCcwIcon, XIcon } from 'lucide-angular';
 
 import * as CryptoActions from '../../../store/crypto.actions';
 import { selectMaxMarketCap } from '../../../store/crypto.selectors';
@@ -17,7 +16,7 @@ import { selectMaxMarketCap } from '../../../store/crypto.selectors';
   selector: 'app-crypto-filters',
   templateUrl: './crypto-filters.component.html',
   styleUrl: './crypto-filters.component.scss',
-  imports: [LucideAngularModule, DecimalPipe],
+  imports: [LucideAngularModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CryptoFiltersComponent {
@@ -28,6 +27,8 @@ export class CryptoFiltersComponent {
   readonly symbol = signal('');
   readonly minMarketCap = signal<number | null>(null);
   readonly maxMarketCapFilter = signal<number | null>(null);
+  readonly minPriceChange = signal<number | null>(null);
+  readonly maxPriceChange = signal<number | null>(null);
 
   readonly maxMarketCap = this.store.selectSignal(selectMaxMarketCap);
   readonly minSliderValue = computed(() => this.minMarketCap() ?? 0);
@@ -52,6 +53,8 @@ export class CryptoFiltersComponent {
   });
 
   readonly listFilterIcon = ListFilterIcon;
+  readonly rotateCcwIcon = RotateCcwIcon;
+  readonly xIcon = XIcon;
 
   togglePopover(): void {
     this.isOpen.update((value) => !value);
@@ -79,6 +82,48 @@ export class CryptoFiltersComponent {
   updateMaxMarketCap(value: number | null): void {
     this.maxMarketCapFilter.set(value);
     this.store.dispatch(CryptoActions.updateFilters({ filters: { maxMarketCap: value } }));
+  }
+
+  updateMinPriceChange(value: number | null): void {
+    this.minPriceChange.set(value);
+    this.store.dispatch(CryptoActions.updateFilters({ filters: { minPriceChange: value } }));
+  }
+
+  updateMaxPriceChange(value: number | null): void {
+    this.maxPriceChange.set(value);
+    this.store.dispatch(CryptoActions.updateFilters({ filters: { maxPriceChange: value } }));
+  }
+
+  onMinPriceChangeInputChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const value = target.value === '' ? null : target.valueAsNumber;
+    const maxValue = this.maxPriceChange();
+
+    if (value === null) {
+      this.updateMinPriceChange(null);
+      return;
+    }
+
+    if (value > (maxValue ?? Infinity)) {
+      this.updateMaxPriceChange(value);
+    }
+    this.updateMinPriceChange(value);
+  }
+
+  onMaxPriceChangeInputChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const value = target.value === '' ? null : target.valueAsNumber;
+    const minValue = this.minPriceChange();
+
+    if (value === null) {
+      this.updateMaxPriceChange(null);
+      return;
+    }
+
+    if (value < (minValue ?? -Infinity)) {
+      this.updateMinPriceChange(value);
+    }
+    this.updateMaxPriceChange(value);
   }
 
   onMinSliderChange(event: Event): void {
@@ -111,7 +156,7 @@ export class CryptoFiltersComponent {
     const target = event.target as HTMLInputElement;
     const value = target.value === '' ? null : target.valueAsNumber;
     const maxValue = this.maxMarketCapFilter() ?? this.maxMarketCap();
-    
+
     if (value === null) {
       this.updateMarketCap(null);
       return;
@@ -137,7 +182,7 @@ export class CryptoFiltersComponent {
     const target = event.target as HTMLInputElement;
     const value = target.value === '' ? null : target.valueAsNumber;
     const minValue = this.minMarketCap() ?? 0;
-    
+
     if (value === null) {
       this.updateMaxMarketCap(null);
       return;
@@ -164,8 +209,9 @@ export class CryptoFiltersComponent {
     this.symbol.set('');
     this.minMarketCap.set(null);
     this.maxMarketCapFilter.set(null);
+    this.minPriceChange.set(null);
+    this.maxPriceChange.set(null);
     this.store.dispatch(CryptoActions.resetFilters());
-    this.closePopover();
   }
 
   @HostListener('document:click', ['$event'])
