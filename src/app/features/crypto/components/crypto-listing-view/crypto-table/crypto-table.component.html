@@ -9,176 +9,19 @@
     <table class="min-w-full w-full table-auto border-collapse">
       <thead class="sticky top-0 bg-black/70">
         <tr>
-          <th
-            class="px-4 py-2 text-left max-w-[120px] cursor-pointer hover:bg-white/10 transition-colors"
-            (click)="sortBy('id')"
-          >
-            <div class="flex items-center gap-1">
-              <span>ID</span>
-              <div class="w-3 h-3 flex items-center justify-center">
-                @if (isSortedBy('id')) {
-                  @if (getSortDirection('id') === 'asc') {
-                    <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  } @else {
-                    <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  }
-                }
-              </div>
-            </div>
-          </th>
-          <th
-            class="px-4 py-2 text-left max-w-[150px] cursor-pointer hover:bg-white/10 transition-colors"
-            (click)="sortBy('name')"
-          >
-            <div class="flex items-center gap-1">
-              <span>Name</span>
-              <div class="w-3 h-3 flex items-center justify-center">
-                @if (isSortedBy('name')) {
-                  @if (getSortDirection('name') === 'asc') {
-                    <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  } @else {
-                    <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  }
-                }
-              </div>
-            </div>
-          </th>
-          <th
-            class="px-4 py-2 text-left whitespace-nowrap cursor-pointer hover:bg-white/10 transition-colors"
-            (click)="sortBy('symbol')"
-          >
-            <div class="flex items-center gap-1">
-              <span>Symbol</span>
-              <div class="w-3 h-3 flex items-center justify-center">
-                @if (isSortedBy('symbol')) {
-                  @if (getSortDirection('symbol') === 'asc') {
-                    <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  } @else {
-                    <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  }
-                }
-              </div>
-            </div>
-          </th>
-          <th
-            class="px-4 py-2 text-right whitespace-nowrap cursor-pointer hover:bg-white/10 transition-colors"
-            (click)="sortBy('current_price')"
-          >
-            <div class="flex items-center justify-end gap-1">
-              <div class="w-3 h-3 flex items-center justify-center">
-                @if (isSortedBy('current_price')) {
-                  @if (getSortDirection('current_price') === 'asc') {
-                    <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  } @else {
-                    <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  }
-                }
-              </div>
-              <span>Price (USD)</span>
-            </div>
-          </th>
-          <th
-            class="px-4 py-2 text-right whitespace-nowrap cursor-pointer hover:bg-white/10 transition-colors"
-            (click)="sortBy('market_cap')"
-          >
-            <div class="flex items-center justify-end gap-1">
-              <div class="w-3 h-3 flex items-center justify-center">
-                @if (isSortedBy('market_cap')) {
-                  @if (getSortDirection('market_cap') === 'asc') {
-                    <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  } @else {
-                    <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  }
-                }
-              </div>
-              <span>Market Cap</span>
-            </div>
-          </th>
-          <th
-            class="px-4 py-2 text-right whitespace-nowrap cursor-pointer hover:bg-white/10 transition-colors"
-            (click)="sortBy('total_volume')"
-          >
-            <div class="flex items-center justify-end gap-1">
-              <div class="w-3 h-3 flex items-center justify-center">
-                @if (isSortedBy('total_volume')) {
-                  @if (getSortDirection('total_volume') === 'asc') {
-                    <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  } @else {
-                    <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  }
-                }
-              </div>
-              <span>Total Volume</span>
-            </div>
-          </th>
-          <th
-            class="px-4 py-2 text-right whitespace-nowrap cursor-pointer hover:bg-white/10 transition-colors"
-            (click)="sortBy('high_24h')"
-          >
-            <div class="flex items-center justify-end gap-1">
-              <div class="w-3 h-3 flex items-center justify-center">
-                @if (isSortedBy('high_24h')) {
-                  @if (getSortDirection('high_24h') === 'asc') {
-                    <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  } @else {
-                    <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  }
-                }
-              </div>
-              <span>High 24h</span>
-            </div>
-          </th>
-          <th
-            class="px-4 py-2 text-right whitespace-nowrap cursor-pointer hover:bg-white/10 transition-colors"
-            (click)="sortBy('low_24h')"
-          >
-            <div class="flex items-center justify-end gap-1">
-              <div class="w-3 h-3 flex items-center justify-center">
-                @if (isSortedBy('low_24h')) {
-                  @if (getSortDirection('low_24h') === 'asc') {
-                    <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  } @else {
-                    <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  }
-                }
-              </div>
-              <span>Low 24h</span>
-            </div>
-          </th>
-          <th
-            class="px-4 py-2 text-right whitespace-nowrap cursor-pointer hover:bg-white/10 transition-colors"
-            (click)="sortBy('price_change_percentage_24h')"
-          >
-            <div class="flex items-center justify-end gap-1">
-              <div class="w-3 h-3 flex items-center justify-center">
-                @if (isSortedBy('price_change_percentage_24h')) {
-                  @if (getSortDirection('price_change_percentage_24h') === 'asc') {
-                    <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  } @else {
-                    <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  }
-                }
-              </div>
-              <span>Price Change % (24h)</span>
-            </div>
-          </th>
-          <th
-            class="px-4 py-2 text-right whitespace-nowrap cursor-pointer hover:bg-white/10 transition-colors"
-            (click)="sortBy('circulating_supply')"
-          >
-            <div class="flex items-center justify-end gap-1">
-              <div class="w-3 h-3 flex items-center justify-center">
-                @if (isSortedBy('circulating_supply')) {
-                  @if (getSortDirection('circulating_supply') === 'asc') {
-                    <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  } @else {
-                    <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
-                  }
-                }
-              </div>
-              <span>Circulating Supply</span>
-            </div>
-          </th>
+          @for (column of columns; track column.key) {
+            <th
+              app-table-header
+              [columnKey]="column.key"
+              [label]="column.label"
+              [align]="column.align"
+              [additionalClasses]="column.additionalClasses || ''"
+              [sortable]="column.sortable"
+              [isSortedBy]="isSortedBy(column.key)"
+              [sortDirection]="getSortDirection(column.key)"
+              [onSort]="sortBy"
+            ></th>
+          }
         </tr>
       </thead>
 

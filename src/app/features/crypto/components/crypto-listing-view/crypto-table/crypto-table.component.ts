@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { DecimalPipe, UpperCasePipe } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { LucideAngularModule, ArrowUpIcon, ArrowDownIcon } from 'lucide-angular';
 
 import {
   selectError,
@@ -10,12 +9,14 @@ import {
   selectSort,
 } from '../../../store/crypto.selectors';
 import { FormattedPriceComponent } from './formatted-price/formatted-price.component';
+import { TableHeaderComponent } from './table-header/table-header.component';
+import { CRYPTO_TABLE_COLUMNS } from './crypto-table.constants';
 import { CryptoCurrency } from '../../../../../core/models/crypto.model';
 import * as CryptoActions from '../../../store/crypto.actions';
 
 @Component({
   selector: 'app-crypto-table',
-  imports: [DecimalPipe, UpperCasePipe, FormattedPriceComponent, LucideAngularModule],
+  imports: [DecimalPipe, UpperCasePipe, FormattedPriceComponent, TableHeaderComponent],
   templateUrl: './crypto-table.component.html',
   styleUrl: './crypto-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,12 +29,11 @@ export class CryptoTableComponent {
   readonly error = this.store.selectSignal(selectError);
   readonly sort = this.store.selectSignal(selectSort);
 
-  readonly arrowUpIcon = ArrowUpIcon;
-  readonly arrowDownIcon = ArrowDownIcon;
+  readonly columns = CRYPTO_TABLE_COLUMNS;
 
-  sortBy(column: keyof CryptoCurrency): void {
+  readonly sortBy = (column: keyof CryptoCurrency): void => {
     this.store.dispatch(CryptoActions.updateSort({ active: column }));
-  }
+  };
 
   isSortedBy(column: keyof CryptoCurrency): boolean {
     return this.sort().active === column;

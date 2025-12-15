@@ -1,0 +1,27 @@
+@if (align() === 'left') {
+  <div class="flex items-center gap-1">
+    <span>{{ label() }}</span>
+    <div class="w-3 h-3 flex items-center justify-center">
+      @if (isSortedBy() && sortDirection() !== null) {
+        @if (sortDirection() === 'asc') {
+          <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
+        } @else {
+          <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
+        }
+      }
+    </div>
+  </div>
+} @else {
+  <div class="flex items-center justify-end gap-1">
+    <div class="w-3 h-3 flex items-center justify-center">
+      @if (isSortedBy() && sortDirection() !== null) {
+        @if (sortDirection() === 'asc') {
+          <i-lucide [img]="arrowUpIcon" class="w-3 h-3 text-white/80"></i-lucide>
+        } @else {
+          <i-lucide [img]="arrowDownIcon" class="w-3 h-3 text-white/80"></i-lucide>
+        }
+      }
+    </div>
+    <span>{{ label() }}</span>
+  </div>
+}
